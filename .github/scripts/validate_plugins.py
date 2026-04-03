@@ -1,41 +1,32 @@
 import os
-import re
 import sys
+import json
 import subprocess
 
 # Adjust path relative to the current script location
 SCRIPT_DIR = os.path.dirname(__file__)
-PLUGIN_FILE_PATH = os.path.join(SCRIPT_DIR, '../../plugin.py')
+REGISTRY_FILE_PATH = os.path.join(SCRIPT_DIR, '../../registry.json')
 
-def parse_plugin_file():
-    plugin_data = {}
-
-    print(f"Checking if plugin file exists at: {PLUGIN_FILE_PATH}")
-    if not os.path.isfile(PLUGIN_FILE_PATH):
-        print(f"Plugin file not found at: {PLUGIN_FILE_PATH}")
+def load_registry():
+    print(f"Checking if registry file exists at: {REGISTRY_FILE_PATH}")
+    if not os.path.isfile(REGISTRY_FILE_PATH):
+        print(f"Registry file not found at: {REGISTRY_FILE_PATH}")
         sys.exit(1)
 
-    with open(PLUGIN_FILE_PATH, 'r') as plugin_file:
-        content = plugin_file.read()
-        print(f"Read content from plugin file, length: {len(content)}")
-
-        # Adjusted regex to be more robust and handle multi-line content
-        plugin_data_section = re.search(r'self\.plugindata\s*=\s*{(.*?)\n\s*}', content, re.DOTALL)
-        if plugin_data_section:
-            print("Found plugindata section")
-            plugin_lines = plugin_data_section.group(1).split('\n')
-            for line in plugin_lines:
-                line = line.strip()
-                if line.startswith('"Idle"'):
-                    continue  # Skip the Idle plugin
-                print(f"Processing line: {line}")
-                match = re.match(r'"(?P<key>[^"]+)"\s*:\s*\["(?P<author>[^"]+)",\s*"(?P<repository>[^"]+)",\s*"(?P<description>[^"]+)",\s*"(?P<branch>[^"]+)"\],?', line)
-                if match:
-                    plugin_info = match.groupdict()
-                    plugin_data[plugin_info["key"]] = plugin_info
-        else:
-            print("No plugin data section found in plugin file.")
-
+    with open(REGISTRY_FILE_PATH, 'r') as f:
+        registry_data = json.load(f)
+        
+    plugin_data = {}
+    for key, data in registry_data.items():
+        if key == "Idle":
+            continue
+        plugin_data[key] = {
+            "key": key,
+            "author": data[0],
+            "repository": data[1],
+            "description": data[2],
+            "branch": data[3]
+        }
     return plugin_data
 
 def validate_repository(author, repository, branch):
@@ -49,9 +40,9 @@ def validate_repository(author, repository, branch):
     return result.returncode == 0
 
 def main():
-    print("Parsing plugin file...")
-    plugin_data = parse_plugin_file()
-    print(f"Parsed data: {plugin_data}")
+    print("Loading registry file...")
+    plugin_data = load_registry()
+    print(f"Loaded {len(plugin_data)} plugins.")
 
     if not plugin_data:
         print("No plugin data found, exiting.")

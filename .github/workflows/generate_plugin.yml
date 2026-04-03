@@ -1,0 +1,38 @@
+name: Generate Plugin XML Header
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'registry.json'
+      - 'plugin_core.py'
+      - '.github/scripts/generate_plugin.py'
+  pull_request:
+    paths:
+      - 'registry.json'
+      - 'plugin_core.py'
+      - '.github/scripts/generate_plugin.py'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Generate plugin.py
+        run: python .github/scripts/generate_plugin.py
+
+      - name: Commit and push changes
+        if: github.event_name == 'push'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add plugin.py
+          git commit -m "Auto-generate plugin.py from registry.json" || exit 0
+          git push
