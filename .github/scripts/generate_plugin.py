@@ -1,7 +1,7 @@
 import json
 import os
 
-SCRIPT_DIR = os.path.dirname(__file__)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REGISTRY_FILE = os.path.join(SCRIPT_DIR, '../../registry.json')
 CORE_FILE = os.path.join(SCRIPT_DIR, '../../plugin_core.py')
 OUTPUT_FILE = os.path.join(SCRIPT_DIR, '../../plugin.py')
