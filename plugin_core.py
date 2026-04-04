@@ -85,6 +85,12 @@ class BasePlugin:
         home_folder = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), "..", ".."))
         plugins_dir = os.path.join(home_folder, "plugins")
         
+        current_folder = os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/')))
+        if not current_folder.startswith("00-"):
+            warn_msg = f"PP-MANAGER is in '{current_folder}'. It is strongly advised to rename the folder to start with '00-' (e.g., '00-PP-MANAGER') so it loads first."
+            Domoticz.Error(warn_msg)
+            Domoticz.SendNotification("PP-MANAGER Setup Warning", warn_msg)
+
         # Inject shared dependencies into sys.path
         shared_deps_dir = os.path.join(plugins_dir, os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))), ".shared_deps")
         if os.path.isdir(shared_deps_dir) and shared_deps_dir not in sys.path:
