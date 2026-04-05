@@ -558,6 +558,7 @@ class BasePlugin:
             return None
 
     def parseFileForSecurityIssues(self, pyfilename, pypluginid):
+        import ast
         Domoticz.Debug("parseFileForSecurityIssues called")
         if Parameters.get("Mode5") == 'True':
             Domoticz.Log(f"Scanning {pyfilename} for security issues...")
@@ -566,39 +567,75 @@ class BasePlugin:
             self.SecPolUserList[pypluginid] = []
 
         ip_pattern = re.compile(r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b')
-        suspicious_calls = re.compile(r'\b(subprocess\.|os\.system|os\.popen|eval\(|exec\(|__import__\(|pickle\.)')
 
         try:
             with open(pyfilename, "r", encoding="utf-8", errors="ignore") as file:
-                for lineNum, text in enumerate(file, 1):
-                    clean_text = text.strip()
+                source_code = file.read()
+
+            try:
+                tree = ast.parse(source_code)
+            except (SyntaxError, RecursionError, MemoryError, Exception) as e:
+                Domoticz.Error(f"Failed to parse plugin file {pyfilename} (Possible AST Bomb or invalid syntax): {e}. Plugin considered UNSAFE.")
+                return
+
+            class SecurityScanner(ast.NodeVisitor):
+                def __init__(self):
+                    self.findings = []
+
+                def visit_Call(self, node):
+                    func_name = ""
+                    if isinstance(node.func, ast.Attribute):
+                        if isinstance(node.func.value, ast.Name):
+                            func_name = f"{node.func.value.id}.{node.func.attr}"
+                    elif isinstance(node.func, ast.Name):
+                        func_name = node.func.id
+
+                    suspicious = ['os.system', 'os.popen', 'eval', 'exec', '__import__', 'pickle.loads', 'pickle.load']
+                    if func_name in suspicious or func_name.startswith('subprocess.'):
+                        self.findings.append((node.lineno, f"Suspicious Call: {func_name}"))
                     
-                    if not clean_text or clean_text.startswith('#') or '<param field=' in clean_text:
-                        continue
+                    self.generic_visit(node)
 
-                    findings = []
+            scanner = SecurityScanner()
+            scanner.visit(tree)
+
+            ast_findings_map = {}
+            for lineno, finding in scanner.findings:
+                if lineno not in ast_findings_map:
+                    ast_findings_map[lineno] = []
+                ast_findings_map[lineno].append(finding)
+
+            lines = source_code.splitlines()
+            for i, text in enumerate(lines):
+                lineNum = i + 1
+                clean_text = text.strip()
+                
+                if not clean_text or clean_text.startswith('#') or '<param field=' in clean_text:
+                    continue
+
+                findings = []
+                
+                for ip in ip_pattern.findall(clean_text):
+                    if all(0 <= int(octet) <= 255 for octet in ip.split('.')):
+                        findings.append(f"IP Address: {ip}")
+
+                if lineNum in ast_findings_map:
+                    findings.extend(ast_findings_map[lineNum])
+
+                for finding in findings:
+                    is_excluded = False
+                    combined_exclusions = self.SecPolUserList.get("Global", []) + self.SecPolUserList[pypluginid]
+                    for exclusion in combined_exclusions:
+                        if exclusion in clean_text or exclusion in finding:
+                            is_excluded = True
+                            break
                     
-                    for ip in ip_pattern.findall(clean_text):
-                        if all(0 <= int(octet) <= 255 for octet in ip.split('.')):
-                            findings.append(f"IP Address: {ip}")
-
-                    for call in suspicious_calls.findall(clean_text):
-                        findings.append(f"Suspicious Call: {call}")
-
-                    for finding in findings:
-                        is_excluded = False
-                        combined_exclusions = self.SecPolUserList.get("Global", []) + self.SecPolUserList[pypluginid]
-                        for exclusion in combined_exclusions:
-                            if exclusion in clean_text or exclusion in finding:
-                                is_excluded = True
-                                break
-                        
-                        if not is_excluded:
-                            Domoticz.Error(f"Security Finding in {pypluginid}: --> {finding} <-- LINE: {lineNum} FILE: {pyfilename}")
-                            Domoticz.Error(f"Code context: {clean_text}")
+                    if not is_excluded:
+                        Domoticz.Error(f"Security Finding in {pypluginid}: --> {finding} <-- LINE: {lineNum} FILE: {pyfilename}")
+                        Domoticz.Error(f"Code context: {clean_text}")
 
         except Exception as e:
-            Domoticz.Error(f"Error parsing security issues for {pyfilename}: {str(e)}")
+            Domoticz.Error(f"Error reading or processing {pyfilename}: {str(e)}")
 
     def installDependencies(self, pluginKey):
         Domoticz.Debug("installDependencies called")
