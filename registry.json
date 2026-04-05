@@ -274,5 +274,83 @@
         "Domoticz-Tile-plugin",
         "Tile Bluetooth Tracker",
         "main"
+    ],
+    "FoxESS-domoticz": [
+        "bblaszkiewicz",
+        "FoxESS-domoticz",
+        "FoxESS inverter",
+        "main"
+    ],
+    "luxtronik-domoticz-plugin-v2": [
+        "Rouzax",
+        "luxtronik-domoticz-plugin-v2",
+        "Luxtronik heat pump v2",
+        "main"
+    ],
+    "domoticz-tailscale-plugin": [
+        "mirkg",
+        "domoticz-tailscale-plugin",
+        "Tailscale Integration",
+        "main"
+    ],
+    "domoticz-mqttmapper-plugin": [
+        "FlyingDomotic",
+        "domoticz-mqttmapper-plugin",
+        "MQTT Mapper",
+        "main"
+    ],
+    "domoticz-solaredge-modbustcp-plugin": [
+        "addiejanssen",
+        "domoticz-solaredge-modbustcp-plugin",
+        "SolarEdge ModbusTCP",
+        "main"
+    ],
+    "domoticz-tuya-cloud": [
+        "lacha07",
+        "domoticz-tuya-cloud",
+        "Tuya Cloud API",
+        "main"
+    ],
+    "Domoticz-SMA-Inverter": [
+        "derenback",
+        "Domoticz-SMA-Inverter",
+        "SMA solar inverters",
+        "main"
+    ],
+    "Broadlink-Domoticz-plugin": [
+        "zak-45",
+        "Broadlink-Domoticz-plugin",
+        "Broadlink devices",
+        "master"
+    ],
+    "domoticz_lg_thinq_plugin": [
+        "majki09",
+        "domoticz_lg_thinq_plugin",
+        "LG ThinQ devices",
+        "main"
+    ],
+    "Domoticz-Solax-plugin": [
+        "saidlm",
+        "Domoticz-Solax-plugin",
+        "Solax inverter ModBUS TCP",
+        "main"
+    ],
+    "domoticz-peblar": [
+        "Achterhoeker",
+        "domoticz-peblar",
+        "Peblar wallbox",
+        "main"
+    ],
+    "Hisense-AirCon-Domoticz": [
+        "bblaszkiewicz",
+        "Hisense-AirCon-Domoticz",
+        "Hisense air conditioners",
+        "main"
+    ],
+    "domoticz-wellbeing-plugin": [
+        "jgaalen",
+        "domoticz-wellbeing-plugin",
+        "Electrolux / AEG Wellbeing",
+        "main"
     ]
 }

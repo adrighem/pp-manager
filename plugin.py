@@ -28,6 +28,7 @@
             <options>
                 <option label="Idle" value="Idle"  default="true" />
                 <option label="Battery monitoring for Z-Wave nodes" value="BatteryLevel"/>
+                <option label="Broadlink devices" value="Broadlink-Domoticz-plugin"/>
                 <option label="Chromecast plugin for Domoticz" value="ChromecastPlugin"/>
                 <option label="Creasol DomBus RS485 I/O/Sens modules" value="CreasolDomBus"/>
                 <option label="DDS238 ZN/S energy meter, single phase, Modbus RTU" value="domoticz-dds238"/>
@@ -39,13 +40,16 @@
                 <option label="Dyson Pure Link" value="DysonPureLink"/>
                 <option label="E-Flux by Road back office" value="E-Flux"/>
                 <option label="ebusd bridge" value="ebusd"/>
+                <option label="Electrolux / AEG Wellbeing" value="domoticz-wellbeing-plugin"/>
                 <option label="Emmeti EQ 2021 amd EQ 3021 ES hot water heat pumps" value="domoticz-emmeti-eq2021"/>
                 <option label="Emmeti Mirai heat pumps" value="domoticz-emmeti-mirai"/>
                 <option label="EMS bus Wi-Fi Gateway" value="ems-gateway"/>
                 <option label="EVCC IO Plugin" value="Domoticz-EVCC-IO-Plugin"/>
+                <option label="FoxESS inverter" value="FoxESS-domoticz"/>
                 <option label="Freebox V6 (Revolution)" value="freeboxv6"/>
                 <option label="GoodWE Solar inverter via SEMS API" value="GoodWeAPI"/>
                 <option label="Govee Local Api Control" value="GoveeDiscovery"/>
+                <option label="Hisense air conditioners" value="Hisense-AirCon-Domoticz"/>
                 <option label="Homewizard" value="Homewizard"/>
                 <option label="Homewizard Battery" value="Homewizard-Battery"/>
                 <option label="Hyundai and Kia vehicles" value="HyundaiKiaConnect"/>
@@ -53,18 +57,27 @@
                 <option label="IKEA Tradfri" value="IKEA-Tradfri"/>
                 <option label="Integrate with AWTRIX3 Smart Clock" value="AWTRIX3"/>
                 <option label="Itho Wifi module" value="IthoWifi"/>
+                <option label="LG ThinQ devices" value="domoticz_lg_thinq_plugin"/>
                 <option label="Link-Tap Watering System" value="Link-Tap"/>
                 <option label="Linky" value="Linky"/>
+                <option label="Luxtronik heat pump v2" value="luxtronik-domoticz-plugin-v2"/>
                 <option label="Lyrion Music Server (LMS)" value="LyrionMusicServer"/>
                 <option label="MQTT discovery" value="MQTTDiscovery"/>
+                <option label="MQTT Mapper" value="domoticz-mqttmapper-plugin"/>
                 <option label="OpenWRT WiFi Presence MQTT translator" value="owrtwifi2domo"/>
+                <option label="Peblar wallbox" value="domoticz-peblar"/>
                 <option label="PZEM-016 PZEM-014 PZEM-004T energy meters" value="pzem016"/>
                 <option label="Quatt" value="Quatt"/>
+                <option label="SMA solar inverters" value="Domoticz-SMA-Inverter"/>
+                <option label="SolarEdge ModbusTCP" value="domoticz-solaredge-modbustcp-plugin"/>
+                <option label="Solax inverter ModBUS TCP" value="Domoticz-Solax-plugin"/>
                 <option label="Sonoff Mini" value="sonoff-domoticz-plugin"/>
                 <option label="Steam player status" value="steam"/>
                 <option label="Synology SurveillanceStation" value="Synology SurveillanceStation"/>
+                <option label="Tailscale Integration" value="domoticz-tailscale-plugin"/>
                 <option label="Tile Bluetooth Tracker" value="DomoticzTile"/>
                 <option label="Tuya" value="tuyaha"/>
+                <option label="Tuya Cloud API" value="domoticz-tuya-cloud"/>
                 <option label="Wan IP Checker" value="WAN-IP-CHECKER"/>
                 <option label="WLANThermo" value="WLANThermo"/>
                 <option label="WLED" value="WLED"/>
