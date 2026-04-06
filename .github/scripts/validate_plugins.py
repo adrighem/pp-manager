@@ -31,7 +31,7 @@ def load_registry():
 
 def validate_repository(author, repository, branch):
     repo_url = f"https://github.com/{author}/{repository}"
-    repo_clone_cmd = f"git ls-remote --heads {repo_url} {branch}"
+    repo_clone_cmd = f"env GIT_TERMINAL_PROMPT=0 git ls-remote --heads {repo_url} {branch}"
     result = subprocess.run(repo_clone_cmd, shell=True, capture_output=True, text=True)
     if result.returncode != 0:
         print(f"Error executing command: {repo_clone_cmd}")
