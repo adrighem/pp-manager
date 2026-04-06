@@ -101,4 +101,4 @@ Auto-updating plugins without manually reviewing the code changes exposes your s
 
 ## 💬 Discussion & Support
 Join the conversation on the official Domoticz forums:
-http://www.domoticz.com/forum/viewtopic.php?f=65&t=22339
+https://forum.domoticz.com/viewtopic.php?t=22339
