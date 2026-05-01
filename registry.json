@@ -352,5 +352,461 @@
         "domoticz-wellbeing-plugin",
         "Electrolux / AEG Wellbeing",
         "main"
+    ],
+    "home-connect": [
+        "domoticz",
+        "home-connect",
+        "Bosch Home Connect plugin for Domoticz",
+        "main"
+    ],
+    "domoticz_lg_thinqconnect_plugin": [
+        "avriessen",
+        "domoticz_lg_thinqconnect_plugin",
+        "LG ThinQ domoticz plugin",
+        "develop"
+    ],
+    "Roomba": [
+        "neutrino85",
+        "Roomba",
+        "Domoticz iRobot Roomba Plugin",
+        "main"
+    ],
+    "Domoticz---CEPT-plugin": [
+        "sydspost",
+        "Domoticz---CEPT-plugin",
+        "Domoticz plugin to get Cheapest Energy Price Time within next 24 hours given a duration of energyconsumption",
+        "main"
+    ],
+    "domoticz_somfy": [
+        "MadPatrick",
+        "domoticz_somfy",
+        "Tahoma/Conexoon plugin for IO blinds",
+        "master"
+    ],
+    "Domoticz-TinyTUYA-Plugin": [
+        "Xenomes",
+        "Domoticz-TinyTUYA-Plugin",
+        "A bridge between Tinytuya and Domoticz",
+        "Master"
+    ],
+    "Domoticz_WT53R_Rain_Tank_Sensor": [
+        "voyo",
+        "Domoticz_WT53R_Rain_Tank_Sensor",
+        "This plugin connects to a WT53R range sensor over Modbus TCP protocol to measure water levels in rain tanks.",
+        "main"
+    ],
+    "weheat-domoticz-plugin": [
+        "Tableflipper9001",
+        "weheat-domoticz-plugin",
+        "Domoticz Python plugin for WeHeat heatpumps",
+        "main"
+    ],
+    "Mattericz": [
+        "fleinze",
+        "Mattericz",
+        "Matter plugin for Domoticz",
+        "main"
+    ],
+    "Domoticz_VolvoRecharge_Plugin": [
+        "akamming",
+        "Domoticz_VolvoRecharge_Plugin",
+        "domoticz plugin for Volvo Recharge Full EV or PHEV vehicles",
+        "main"
+    ],
+    "BboxPlugin": [
+        "neutrino85",
+        "BboxPlugin",
+        "Bouygues Bbox Monitor plugin for Domoticz",
+        "main"
+    ],
+    "pp-manager": [
+        "ycahome",
+        "pp-manager",
+        "Domoticz Python plugin manager",
+        "master"
+    ],
+    "Domoticz-Shelly-Plugin": [
+        "lemassykoi",
+        "Domoticz-Shelly-Plugin",
+        "Domoticz Plugin to manage Shelly Gen2+ Devices",
+        "main"
+    ],
+    "TWC": [
+        "RSP267",
+        "TWC",
+        "Domoticz plugin for the Tesla Wall Connector",
+        "master"
+    ],
+    "HomeWizard-Wifi-p1-plugin-Extended": [
+        "szelessavalapitvany",
+        "HomeWizard-Wifi-p1-plugin-Extended",
+        "Extended version of the original HomeWizard Wi-Fi P1 Domoticz plugin with more detailed data and multi-language support.",
+        "main"
+    ],
+    "domoticz-AirHumidifier": [
+        "mgrom",
+        "domoticz-AirHumidifier",
+        "Domoticz plugin for Xiaomi Humidifier 1",
+        "master"
+    ],
+    "Zigbee2Tasmoticz": [
+        "fleinze",
+        "Zigbee2Tasmoticz",
+        "a Domoticz plugin for Zigbee2Tasmota. Fork of foba-1/Tasmoticz ",
+        "main-domoticzex"
+    ],
+    "Domoticz-Husqvarna-Automower-plugin": [
+        "FilipDem",
+        "Domoticz-Husqvarna-Automower-plugin",
+        "Domoticz plugin for Husqvarna automowers.",
+        "main"
+    ],
+    "FrisquetConnectDomoticz": [
+        "fjumeaux",
+        "FrisquetConnectDomoticz",
+        "Fork de Krakinou (plugin Frisquet Connect pour Domoticz) \u2014 correctifs et \u00e9volutions",
+        "main"
+    ],
+    "Marstek-Venus-plugin": [
+        "WillemD61",
+        "Marstek-Venus-plugin",
+        "Domoticz plugin for Marstek Venus battery",
+        "main"
+    ],
+    "Krakinou-FrisquetConnectDomoticz": [
+        "Krakinou",
+        "FrisquetConnectDomoticz",
+        "Domoticz Plugin For Frisquet Connect",
+        "main"
+    ],
+    "PluginDomoticzFreebox": [
+        "fjumeaux",
+        "PluginDomoticzFreebox",
+        "Refork plugin de supermat",
+        "master"
+    ],
+    "SessyBattery": [
+        "JanJaapKo",
+        "SessyBattery",
+        "Domoticz plugin for Sessy batteries",
+        "main"
+    ],
+    "Domoticz-Huawei-Inverter": [
+        "JWGracht",
+        "Domoticz-Huawei-Inverter",
+        "Domoticz plugin for Huawei Solar inverters via Modbus",
+        "main"
+    ],
+    "domoticz-github": [
+        "j-b-n",
+        "domoticz-github",
+        "GitHub Stats Domoticz Plugin",
+        "master"
+    ],
+    "Domoticz-TeslaFi-Plugin": [
+        "lemassykoi",
+        "Domoticz-TeslaFi-Plugin",
+        "Domoticz Plugin to gather datas from TeslaFi API",
+        "main"
+    ],
+    "Domoticz-OpenDTU-Plugin": [
+        "lemassykoi",
+        "Domoticz-OpenDTU-Plugin",
+        "Plugin to collect datas from OpenDTU",
+        "main"
+    ],
+    "Domoticz-Bluetti-Plugin": [
+        "lemassykoi",
+        "Domoticz-Bluetti-Plugin",
+        "Domoticz Plugin to poll Bluetti device via BLE",
+        "main"
+    ],
+    "Domoticz-BMW-plugin": [
+        "FilipDem",
+        "Domoticz-BMW-plugin",
+        "Domoticz plugin working with BMW Connected Drive",
+        "main"
+    ],
+    "Domoticz-TinyTUYA-Local-Plugin": [
+        "Xenomes",
+        "Domoticz-TinyTUYA-Local-Plugin",
+        "Domoticz-TinyTUYA-Local-Plugin plugin for Domoticz",
+        "Master"
+    ],
+    "domoticz_reolink": [
+        "j-b-n",
+        "domoticz_reolink",
+        "Domoticz plugin for use with Reolink cameras. ",
+        "main"
+    ],
+    "SolarForecast": [
+        "JanJaapKo",
+        "SolarForecast",
+        "Domoticz plugin to fetch Solar Forecast data",
+        "main"
+    ],
+    "NEDsolarForecast": [
+        "JanJaapKo",
+        "NEDsolarForecast",
+        "Domoticz plugin for NED solar forecast",
+        "main"
+    ],
+    "Domoticz-OpenMeteo-Plugin": [
+        "lemassykoi",
+        "Domoticz-OpenMeteo-Plugin",
+        "Domoticz plugin for OpenMeteo weather data - no API key required",
+        "main"
+    ],
+    "XTEND-plugin": [
+        "WillemD61",
+        "XTEND-plugin",
+        "Domoticz plugin for Intergas Xtend data collection",
+        "main"
+    ],
+    "Domoticz-Synology-Plugin": [
+        "bramvreugd",
+        "Domoticz-Synology-Plugin",
+        "Synology Monitoring Plugin.  Collects CPU, Memory, Heat, HDD Information and network load from Synology NAS Units",
+        "main"
+    ],
+    "domoticz-powerview-plugin": [
+        "jgaalen",
+        "domoticz-powerview-plugin",
+        "domoticz-powerview-plugin plugin for Domoticz",
+        "main"
+    ],
+    "Domoticz-PiHole-Control": [
+        "janreimen",
+        "Domoticz-PiHole-Control",
+        "Domoticz Plugin to integrate PiHole with https Support, forked from ",
+        "main"
+    ],
+    "OpenEVSEPlugin": [
+        "ayasystems",
+        "OpenEVSEPlugin",
+        "OpenEVSE mqtt domoticz plugin",
+        "master"
+    ],
+    "ThesslaGreen-modbus": [
+        "voyo",
+        "ThesslaGreen-modbus",
+        "Domoticz ThesslaGreen-modbus plugin",
+        "main"
+    ],
+    "domoticz-BSR": [
+        "belzetrigger",
+        "domoticz-BSR",
+        "Domoticz plugin that gets data of public waste collection for Berlin from BSR",
+        "master"
+    ],
+    "Domoticz-GPSLogger-Plugin": [
+        "TurnOfAFriendlyCard",
+        "Domoticz-GPSLogger-Plugin",
+        "Capture location data obtained via GPS Logger app in Domoticz devices.",
+        "main"
+    ],
+    "Domoticz-Rhasspy-Plugin": [
+        "TurnOfAFriendlyCard",
+        "Domoticz-Rhasspy-Plugin",
+        "This plugin integrates Rhasspy intents with Domoticz devices via MQTT and Domoticz API.",
+        "main"
+    ],
+    "Domoticz_plugin_for_Smasung_Washer_Dryer": [
+        "csutihu",
+        "Domoticz_plugin_for_Smasung_Washer_Dryer",
+        "Domoticz plugin for washing and drying machines",
+        "main"
+    ],
+    "Domoticz-Enigma2": [
+        "kofec",
+        "Domoticz-Enigma2",
+        "Enigma2 Plugin for domoticz ",
+        "master"
+    ],
+    "domoticz-cupra-plugin": [
+        "jgaalen",
+        "domoticz-cupra-plugin",
+        "Domoticz Cupra Plugin",
+        "main"
+    ],
+    "Domoticz-Volumio-Plugin": [
+        "frepkovsky",
+        "Domoticz-Volumio-Plugin",
+        "Domoticz-Volumio-Plugin plugin for Domoticz",
+        "main"
+    ],
+    "Domoticz-Temperatur-nu": [
+        "derenback",
+        "Domoticz-Temperatur-nu",
+        "A simple plugin for Domoticz that gets the temperature for a location in Sweden from temperature.nu",
+        "main"
+    ],
+    "Domoticz-Brel-Home-Hub-03-integration": [
+        "salmr",
+        "Domoticz-Brel-Home-Hub-03-integration",
+        "Plugin for Domoticz to read and control binds via a Brel Home Hub",
+        "main"
+    ],
+    "Domoticz-WazeTimeTravel-Plugin": [
+        "cth35",
+        "Domoticz-WazeTimeTravel-Plugin",
+        "Waze time travel plugin for Domoticz",
+        "main"
+    ],
+    "OM310-Domoticz-plugin": [
+        "tmrealive",
+        "OM310-Domoticz-plugin",
+        "Domoticz plugin for OM-310 Power Limiter (Novatek-Elektro) over Modbus TCP",
+        "main"
+    ],
+    "luxtronik-domoticz-plugin": [
+        "Rouzax",
+        "luxtronik-domoticz-plugin",
+        "Domoticz plugin for Luxtronik heat pump controllers, like Alpha innotec. It offers real-time monitoring and control of temperatures, pressures, pump speeds, and energy consumption with multi-language support and configurable update intervals.",
+        "main"
+    ],
+    "goodwe_rs485_domoticz": [
+        "nijmeijer",
+        "goodwe_rs485_domoticz",
+        "Domoticz python plugin for Goodwe Solar Inverters via RS485",
+        "master"
+    ],
+    "DHT22-rpi": [
+        "Mibeus",
+        "DHT22-rpi",
+        "Plugin for domoticz for 1-wire DHT22/AM2301",
+        "main"
+    ],
+    "DomoticzNestPlugin": [
+        "lbartuzi",
+        "DomoticzNestPlugin",
+        "Not a perfect plugin but it works. ",
+        "main"
+    ],
+    "ShellyCloudPlugin2": [
+        "mario-peters",
+        "ShellyCloudPlugin2",
+        "This plugin makes it possible to use Shelly Devices in Domoticz. You can find the specific configuration and ToDo's on the Wiki page.",
+        "main"
+    ],
+    "domoticz-PowerWorld-heat-pump": [
+        "Mike19700",
+        "domoticz-PowerWorld-heat-pump",
+        "Domoticz modbus plugin for Powerworld inverters.",
+        "main"
+    ],
+    "domoticz-zigbee2mqtt-plugin": [
+        "RoyP99",
+        "domoticz-zigbee2mqtt-plugin",
+        "zigbee2mqtt plugin for domoticz",
+        "master"
+    ],
+    "Domoticz-GPIO-Debian-13": [
+        "Mibeus",
+        "Domoticz-GPIO-Debian-13",
+        "Plugin for control relay on GPIO PINs on RPI with domoticz",
+        "main"
+    ],
+    "Domoticz-N8N-Plugin": [
+        "galadril",
+        "Domoticz-N8N-Plugin",
+        "Plugin for Domoticz to load the UI inside Domoticz, and add all workflows as devices that you can toggle on/off inside Domoticz.",
+        "main"
+    ],
+    "domoticz_zigbee2tasmota": [
+        "Mibeus",
+        "domoticz_zigbee2tasmota",
+        "plugin for comunication with zigbee sensors through tasmota to Domoticz",
+        "main"
+    ],
+    "Domoticz-plugin-for-samsung-washing-machine": [
+        "csutihu",
+        "Domoticz-plugin-for-samsung-washing-machine",
+        "Domoticz python plugin for samsung washing machine via Smartthings API",
+        "main"
+    ],
+    "Domoticz-MCP-Plugin": [
+        "galadril",
+        "Domoticz-MCP-Plugin",
+        "Domoticz-MCP-Plugin plugin for Domoticz",
+        "main"
+    ],
+    "alphaESS-battery-plugin": [
+        "AntoineVDH",
+        "alphaESS-battery-plugin",
+        "A domoticz plugin for the alphaESS Battery",
+        "main"
+    ],
+    "domoticz-ir-climate-controller": [
+        "szelessavalapitvany",
+        "domoticz-ir-climate-controller",
+        "Tasmota IR device control plugin that allows remote control of Wi-Fi-free, IR air conditioners from Domoticz",
+        "main"
+    ],
+    "sweden_energyprice": [
+        "j-b-n",
+        "sweden_energyprice",
+        "Domoticz plugin for energy prices in Sweden.",
+        "main"
+    ],
+    "HomeWizard-Wifi-3F-plugin": [
+        "freekdk",
+        "HomeWizard-Wifi-3F-plugin",
+        "Domoticz plugin for HomeWizard 3FkWh device",
+        "main"
+    ],
+    "PC321_TY_tuya_local": [
+        "nlovrens",
+        "PC321_TY_tuya_local",
+        "Domoticz PC321-TY power clamp plugin",
+        "main"
+    ],
+    "Domoticz-MG-Plugin": [
+        "lemassykoi",
+        "Domoticz-MG-Plugin",
+        "Domoticz Plugin to gather datas from MG EV",
+        "main"
+    ],
+    "DDS238-7-modbus": [
+        "voyo",
+        "DDS238-7-modbus",
+        "Domoticz DDS238-7-modbus plugin",
+        "main"
+    ],
+    "Sofar-modbus": [
+        "voyo",
+        "Sofar-modbus",
+        "Sofar over modbus, Domoticz plugin",
+        "main"
+    ],
+    "IMGW-Meteo": [
+        "mstojek",
+        "IMGW-Meteo",
+        "Plugin dla platformy Domoticz umo\u017cliwiaj\u0105cy pobieranie aktualnych danych pogodowych z publicznego API Instytutu Meteorologii i Gospodarki Wodnej (IMGW).",
+        "main"
+    ],
+    "Domoticz-Em3255-Plugin": [
+        "iwanbae",
+        "Domoticz-Em3255-Plugin",
+        "Domoticz-Em3255-Plugin plugin for Domoticz",
+        "main"
+    ],
+    "Domoticz-NEST-plugin": [
+        "FilipDem",
+        "Domoticz-NEST-plugin",
+        "NEST Plugin for Domoticz using the Google credentials.",
+        "master"
+    ],
+    "domoticz-mqtt-sync-plugin": [
+        "FlyingDomotic",
+        "domoticz-mqtt-sync-plugin",
+        "Synchronizes (part of) devices of a master instance to a slave one",
+        "main"
+    ],
+    "domoticz-tuya-heatpump": [
+        "jgaalen",
+        "domoticz-tuya-heatpump",
+        "Domoticz plugin for Tuya (W'eau) Heatpumps",
+        "main"
     ]
 }
