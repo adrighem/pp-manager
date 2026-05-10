@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PP-Manager</title>
+    <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #fff;
+            --border-color: #ddd;
+            --primary: #007bff;
+            --primary-hover: #0056b3;
+            --danger: #dc3545;
+            --danger-hover: #c82333;
+            --success: #28a745;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        #status {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-desc {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .card-meta {
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+            transition: background 0.2s;
+        }
+
+        .btn-install {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-install:hover { background: var(--primary-hover); }
+
+        .btn-remove {
+            background: var(--danger);
+            color: white;
+        }
+        .btn-remove:hover { background: var(--danger-hover); }
+
+        .btn-update {
+            background: var(--success);
+            color: white;
+        }
+        
+        .installed-badge {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>PP-Manager: Plugin Store</h1>
+        <div id="status">Initializing...</div>
+    </div>
+    
+    <div id="plugins-list" class="grid">
+        <!-- Plugins will be rendered here -->
+    </div>
+</div>
+
+<script>
+    let payloadIdx = null;
+    let triggerIdx = null;
+    let isLoading = false;
+
+    async function init() {
+        setStatus("Finding API bridge...");
+        try {
+            const req = await fetch('/json.htm?type=command&param=getdevices&filter=all&used=true');
+            const devices = await req.json();
+            
+            if (devices.result) {
+                for (const device of devices.result) {
+                    if (device.ID === 'PPM_API_PAYLOAD') {
+                        payloadIdx = device.idx;
+                    }
+                    if (device.ID === 'PPM_API_TRIGGER') {
+                        triggerIdx = device.idx;
+                    }
+                }
+            }
+            
+            if (!payloadIdx || !triggerIdx) {
+                setStatus("Error: PP-Manager devices not found. Please ensure the plugin is added in Hardware.");
+                return;
+            }
+            
+            loadPlugins();
+        } catch (e) {
+            setStatus("Failed to connect to Domoticz API.");
+        }
+    }
+
+    function setStatus(msg) {
+        document.getElementById('status').innerText = msg;
+    }
+
+    async function sendCommand(action, data) {
+        if (isLoading) {
+            alert("An operation is already in progress. Please wait.");
+            return null;
+        }
+        isLoading = true;
+        
+        try {
+            // Append a unique transaction ID so we can match the response reliably
+            const txId = Date.now().toString();
+            const payload = JSON.stringify({ action, tx_id: txId, ...data });
+            
+            // 1. Update Payload Device
+            await fetch(`/json.htm?type=command&param=udevice&idx=${payloadIdx}&nvalue=0&svalue=${encodeURIComponent(payload)}`);
+            
+            // 2. Trigger Action
+            await fetch(`/json.htm?type=command&param=switchlight&idx=${triggerIdx}&switchcmd=On`);
+            
+            // 3. Poll for response
+            return await pollResponse(action, txId);
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    async function pollResponse(action, txId, retries = 120) {
+        for (let i = 0; i < retries; i++) {
+            await new Promise(r => setTimeout(r, 1000)); // Wait 1 second between polls
+            try {
+                const req = await fetch(`/json.htm?type=devices&rid=${payloadIdx}`);
+                const resp = await req.json();
+                
+                if (resp.result && resp.result.length > 0) {
+                    const dataStr = resp.result[0].Data;
+                    try {
+                        const data = JSON.parse(dataStr);
+                        // Check if the response matches our transaction ID
+                        if (data.action === action && data.tx_id === txId) {
+                            return data; // Got response
+                        }
+                    } catch (e) {
+                        // Ignore parsing errors, it might be the request payload or non-JSON data
+                    }
+                }
+            } catch (e) {
+                console.error("Polling error", e);
+            }
+        }
+        throw new Error("Timeout waiting for plugin response.");
+    }
+
+    async function loadPlugins() {
+        setStatus("Loading plugins from registry...");
+        try {
+            const response = await sendCommand('list_plugins', {});
+            if (response && response.status === 'success') {
+                renderPlugins(response.data, response.installed);
+                setStatus(`Loaded ${Object.keys(response.data).length} plugins.`);
+            } else {
+                setStatus("Error loading plugins: " + (response ? response.message : "Unknown error"));
+            }
+        } catch (e) {
+            setStatus(e.message);
+        }
+    }
+
+    function renderPlugins(pluginData, installedList) {
+        const container = document.getElementById('plugins-list');
+        container.innerHTML = '';
+        
+        // Sort keys alphabetically
+        const keys = Object.keys(pluginData).sort((a, b) => pluginData[a][2].localeCompare(pluginData[b][2]));
+
+        for (const key of keys) {
+            const info = pluginData[key];
+            const author = info[0];
+            const repo = info[1];
+            const name = info[2];
+            const branch = info[3];
+            
+            const isInstalled = installedList.includes(key);
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            let html = `
+                <div class="card-header">
+                    ${name}
+                    ${isInstalled ? '<span class="installed-badge">Installed</span>' : ''}
+                </div>
+                <div class="card-desc">Provides integration for ${name}.</div>
+                <div class="card-meta">Author: ${author} <br> Repo: ${repo} (${branch})</div>
+                <div class="actions">
+            `;
+            
+            if (isInstalled) {
+                html += `
+                    <button class="btn-update" onclick="handleAction('update', '${key}')">Update</button>
+                    <button class="btn-remove" onclick="handleAction('remove', '${key}')">Remove</button>
+                `;
+            } else {
+                html += `
+                    <button class="btn-install" onclick="handleAction('install', '${key}')">Install</button>
+                `;
+            }
+            
+            html += `</div>`;
+            card.innerHTML = html;
+            container.appendChild(card);
+        }
+    }
+
+    async function handleAction(action, pluginKey) {
+        if (action === 'remove' && !confirm(`Are you sure you want to remove ${pluginKey}?`)) {
+            return;
+        }
+        
+        setStatus(`Executing ${action} for ${pluginKey}... This may take a moment.`);
+        try {
+            const response = await sendCommand(action, { plugin_key: pluginKey });
+            if (response && response.status === 'success') {
+                alert(`Successfully completed ${action} for ${pluginKey}. Domoticz restart may be required.`);
+                loadPlugins(); // Reload to update UI state
+            } else {
+                alert(`Error during ${action}: ` + (response ? response.message : "Unknown error"));
+                setStatus("Operation failed.");
+            }
+        } catch (e) {
+            alert("Error: " + e.message);
+            setStatus("Operation failed.");
+        }
+    }
+
+    // Start initialization when DOM is loaded
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

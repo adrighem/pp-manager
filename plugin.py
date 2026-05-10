@@ -278,6 +278,22 @@ class BasePlugin:
             sys.path.insert(0, shared_deps_dir)
             Domoticz.Log(f"Injected PP-MANAGER shared dependencies into sys.path: {shared_deps_dir}")
 
+        if 1 not in Devices:
+            Domoticz.Device(Name="API Payload", Unit=1, TypeName="Text", DeviceID="PPM_API_PAYLOAD", Used=1).Create()
+        if 2 not in Devices:
+            Domoticz.Device(Name="API Trigger", Unit=2, Type=244, Subtype=73, Switchtype=9, DeviceID="PPM_API_TRIGGER", Used=1).Create()
+            
+        # Copy pp-manager.html to domoticz/www/templates/ if it exists
+        try:
+            import shutil
+            html_src = os.path.join(plugins_dir, current_folder, "pp-manager.html")
+            html_dst = os.path.join(plugins_dir, "..", "www", "templates", "pp-manager.html")
+            if os.path.isfile(html_src):
+                shutil.copyfile(html_src, html_dst)
+                Domoticz.Log(f"Copied custom UI to {html_dst}")
+        except Exception as e:
+            Domoticz.Error(f"Failed to copy pp-manager.html to templates: {e}")
+
         self.fetch_registry()
 
         plugin_key = Parameters.get("Mode3", "").strip() or Parameters["Mode2"]
@@ -398,6 +414,78 @@ class BasePlugin:
                     Domoticz.Log("Plugin Branch:" + plugin_branch)
                     self.InstallPythonPlugin(plugin_author, plugin_repository, plugin_key, plugin_branch)
                 Domoticz.Heartbeat(60)
+
+
+    def onCommand(self, Unit, Command, Level, Hue):
+        Domoticz.Debug(f"onCommand called for Unit {Unit}: Command '{Command}', Level: {Level}")
+        if Unit == 2 and Command.lower() == "on":
+            if 1 in Devices:
+                payload_str = Devices[1].sValue
+                Domoticz.Debug(f"API Payload received: {payload_str}")
+                try:
+                    payload = json.loads(payload_str)
+                    self.handleApiCommand(payload)
+                except Exception as e:
+                    Domoticz.Error(f"Failed to parse API payload: {e}")
+                    self.sendApiResponse({"status": "error", "message": "Invalid JSON payload"})
+
+    def handleApiCommand(self, payload):
+        import shutil
+        action = payload.get("action")
+        plugins_dir = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), ".."))
+        
+        if action == "list_plugins":
+            installed_plugins = []
+            for d in os.listdir(plugins_dir):
+                if os.path.isdir(os.path.join(plugins_dir, d)) and not d.startswith("."):
+                    installed_plugins.append(d)
+                    
+            self.sendApiResponse({
+                "status": "success",
+                "action": action,
+                "data": self.plugin_data,
+                "installed": installed_plugins
+            })
+        elif action == "install":
+            plugin_key = payload.get("plugin_key")
+            if plugin_key in self.plugin_data:
+                plugin_author = self.plugin_data[plugin_key][0]
+                plugin_repository = self.plugin_data[plugin_key][1]
+                plugin_branch = self.plugin_data[plugin_key][3]
+                self.InstallPythonPlugin(plugin_author, plugin_repository, plugin_key, plugin_branch)
+                self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
+            else:
+                self.sendApiResponse({"status": "error", "message": "Plugin not found"})
+        elif action == "update":
+            plugin_key = payload.get("plugin_key")
+            if plugin_key in self.plugin_data:
+                plugin_author = self.plugin_data[plugin_key][0]
+                plugin_repository = self.plugin_data[plugin_key][1]
+                self.UpdatePythonPlugin(plugin_author, plugin_repository, plugin_key)
+                self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
+            else:
+                self.sendApiResponse({"status": "error", "message": "Plugin not found"})
+        elif action == "remove":
+            plugin_key = payload.get("plugin_key")
+            plugin_target_dir = os.path.join(plugins_dir, plugin_key)
+            if os.path.isdir(plugin_target_dir) and plugin_key != os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))):
+                try:
+                    shutil.rmtree(plugin_target_dir)
+                    self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
+                except Exception as e:
+                    self.sendApiResponse({"status": "error", "message": str(e)})
+            else:
+                self.sendApiResponse({"status": "error", "message": "Plugin directory not found or cannot remove self"})
+        else:
+            self.sendApiResponse({"status": "error", "message": f"Unknown action: {action}"})
+
+    def sendApiResponse(self, response_dict):
+        if 1 in Devices:
+            try:
+                response_str = json.dumps(response_dict)
+                Devices[1].Update(nValue=0, sValue=response_str)
+            except Exception as e:
+                Domoticz.Error(f"Failed to send API response: {e}")
 
     def onStop(self):
         Domoticz.Debug("onStop called")
@@ -777,6 +865,10 @@ def onStop():
 def onHeartbeat():
     global _plugin
     _plugin.onHeartbeat()
+
+def onCommand(Unit, Command, Level, Hue):
+    global _plugin
+    _plugin.onCommand(Unit, Command, Level, Hue)
 
 # Generic helper functions
 def DumpConfigToLog():
