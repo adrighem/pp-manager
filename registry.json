@@ -935,5 +935,12 @@
         "Domoticz plugin to integrate with zonnedimmer",
         "main",
         "2026-05-02T11:06:58Z"
+    ],
+    "domoticz-kpn-experia-v10": [
+        "adrighem",
+        "domoticz-kpn-experia-v10",
+        "Domoticz Python Plugin for the KPN Experia v10",
+        "main",
+        "2026-05-10T00:00:00Z"
     ]
 }
