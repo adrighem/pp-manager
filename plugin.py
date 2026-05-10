@@ -7,186 +7,32 @@
 
 
 """
-<plugin key="PP-MANAGER" name="Python Plugin Manager" author="adrighem" version="2.0.0" externallink="https://www.domoticz.com/forum/viewtopic.php?f=65&t=22339"> <!-- x-release-please-version -->
+<plugin key="PP-MANAGER" name="Python Plugin Manager" author="adrighem" version="2.0.0" externallink="https://www.domoticz.com/forum/viewtopic.php?f=65&t=22339"> &lt;!-- x-release-please-version --&gt;
     <description>
-		<h2>Python Plugin Manager 2.0.0</h2><br/> <!-- x-release-please-version -->
-		<h3>Features</h3>
-		<ul style="list-style-type:square">
-			<li>Install plugins</li>
-			<li>Update All/Selected plugins</li>
-			<li>Update Notification for All/Selected</li>
-		</ul>
-		<h3>----------------------------------------------------------------------</h3>
-		<h3>WARNING:</h3>
-		<h2>         Auto Updating plugins without verifying their code</h2>
-		<h2>         makes you system vulnerable to developer's code intensions!!</h2>
-		<h3>----------------------------------------------------------------------</h3>
-		<h2>NOTE: After selecting your options press "Update" button!!</h2>
-    </description>
-     <params>
-        <param field="Mode2" label="Plugin to install" width="200px">
-            <options>
-                <option label="Idle" value="Idle"  default="true" />
-                <option label="A bridge between Tinytuya and Domoticz" value="Domoticz-TinyTUYA-Plugin"/>
-                <option label="A Domoticz plugin for SMA solar inverters" value="Domoticz-SMA-Inverter"/>
-                <option label="A domoticz plugin for the alphaESS Battery" value="alphaESS-battery-plugin"/>
-                <option label="A domoticz plugin for the HomeWizard Battery" value="Homewizard-Battery"/>
-                <option label="a Domoticz plugin for Zigbee2Tasmota. Fork of foba-1/Tasmoticz " value="Zigbee2Tasmoticz"/>
-                <option label="A Domoticz plugin to collect data from SolarEdge power inverters over ModbusTCP." value="domoticz-solaredge-modbustcp-plugin"/>
-                <option label="A plugin for Domoticz, the open source home automation software, which allows it to easily connect to Xiaomi Mi Flower Mate devices" value="Mi_Flower_mate_plugin"/>
-                <option label="A Python plugin for Domoticz to controll IKEA Gateway" value="IKEA-Tradfri"/>
-                <option label="A simple plugin for Domoticz that gets the temperature for a location in Sweden from temperature.nu" value="Domoticz-Temperatur-nu"/>
-                <option label="Bosch Home Connect plugin for Domoticz" value="home-connect"/>
-                <option label="Bouygues Bbox Monitor plugin for Domoticz" value="BboxPlugin"/>
-                <option label="Capture location data obtained via GPS Logger app in Domoticz devices." value="Domoticz-GPSLogger-Plugin"/>
-                <option label="Chromecast plugin for Domoticz, based on PyChromecast" value="ChromecastPlugin"/>
-                <option label="DDS238-2 ZN/S ModbusTCP Plugin for Domoticz" value="ds238-modbus-tcp"/>
-                <option label="deCONZ plugin for Domoticz (Zigbee application)" value="deCONZ"/>
-                <option label="Domoticz - Tile plugin" value="DomoticzTile"/>
-                <option label="Domoticz Cupra Plugin" value="domoticz-cupra-plugin"/>
-                <option label="Domoticz DDS238-7-modbus plugin" value="DDS238-7-modbus"/>
-                <option label="Domoticz evcc.io plugin to fetch state " value="Domoticz-EVCC-IO-Plugin"/>
-                <option label="Domoticz GoodWe Solar Inverter plugin (SEMS API)" value="GoodWeAPI"/>
-                <option label="Domoticz Govee Plugin" value="GoveeDiscovery"/>
-                <option label="Domoticz iRobot Roomba Plugin" value="Roomba"/>
-                <option label="Domoticz Lyrion Media Server Plugin" value="LyrionMusicServer"/>
-                <option label="Domoticz modbus plugin for Powerworld inverters." value="domoticz-PowerWorld-heat-pump"/>
-                <option label="Domoticz PC321-TY power clamp plugin" value="PC321_TY_tuya_local"/>
-                <option label="Domoticz plugin for Electrolux / AEG Wellbeing Air Purifiers" value="domoticz-wellbeing-plugin"/>
-                <option label="Domoticz plugin for energy prices in Sweden." value="sweden_energyprice"/>
-                <option label="Domoticz Plugin For Frisquet Connect" value="Krakinou-FrisquetConnectDomoticz"/>
-                <option label="Domoticz plugin for HomeWizard 3FkWh device" value="HomeWizard-Wifi-3F-plugin"/>
-                <option label="Domoticz plugin for Huawei Solar inverters via Modbus" value="Domoticz-Huawei-Inverter"/>
-                <option label="Domoticz plugin for Husqvarna automowers." value="Domoticz-Husqvarna-Automower-plugin"/>
-                <option label="Domoticz plugin for Intergas Xtend data collection" value="XTEND-plugin"/>
-                <option label="Domoticz plugin for LG ThinQ devices." value="domoticz_lg_thinq_plugin"/>
-                <option label="Domoticz plugin for Luxtronik heat pump controllers - COP tracking, multi-instance support, write protection, 5 languages" value="luxtronik-domoticz-plugin-v2"/>
-                <option label="Domoticz plugin for Marstek Venus battery" value="Marstek-Venus-plugin"/>
-                <option label="Domoticz plugin for NED solar forecast" value="NEDsolarForecast"/>
-                <option label="Domoticz plugin for OM-310 Power Limiter (Novatek-Elektro) over Modbus TCP" value="OM310-Domoticz-plugin"/>
-                <option label="Domoticz plugin for OpenMeteo weather data - no API key required" value="Domoticz-OpenMeteo-Plugin"/>
-                <option label="Domoticz plugin for Sessy batteries" value="SessyBattery"/>
-                <option label="Domoticz plugin for the DomBus RS485 modules (inputs, outputs, sensors, EVSE, solar tracker, ...)" value="CreasolDomBus"/>
-                <option label="Domoticz plugin for the EMS Wi-Fi Gateway with Proddy's EMS-ESP firmware " value="ems-gateway"/>
-                <option label="Domoticz plugin for the Peblar wallbox. Also support for loadbalancing." value="domoticz-peblar"/>
-                <option label="Domoticz plugin for the Tesla Wall Connector" value="TWC"/>
-                <option label="Domoticz plugin for Tuya (W'eau) Heatpumps" value="domoticz-tuya-heatpump"/>
-                <option label="Domoticz plugin for use with Reolink cameras. " value="domoticz_reolink"/>
-                <option label="domoticz plugin for Volvo Recharge Full EV or PHEV vehicles" value="Domoticz_VolvoRecharge_Plugin"/>
-                <option label="Domoticz plugin for washing and drying machines" value="Domoticz_plugin_for_Smasung_Washer_Dryer"/>
-                <option label="Domoticz Plugin for WLED " value="WLED"/>
-                <option label="Domoticz plugin for Xiaomi Humidifier 1" value="domoticz-AirHumidifier"/>
-                <option label="Domoticz plugin that gets data of public waste collection for Berlin from BSR" value="domoticz-BSR"/>
-                <option label="Domoticz plugin to control Tuya devices via Cloud API - No local keys needed. Supports fans, lights, switches with automatic status sync." value="domoticz-tuya-cloud"/>
-                <option label="Domoticz plugin to fetch Solar Forecast data" value="SolarForecast"/>
-                <option label="Domoticz Plugin to gather datas from MG EV" value="Domoticz-MG-Plugin"/>
-                <option label="Domoticz Plugin to gather datas from TeslaFi API" value="Domoticz-TeslaFi-Plugin"/>
-                <option label="Domoticz plugin to get Cheapest Energy Price Time within next 24 hours given a duration of energyconsumption" value="Domoticz---CEPT-plugin"/>
-                <option label="Domoticz Plugin to integrate PiHole with https Support, forked from " value="Domoticz-PiHole-Control"/>
-                <option label="Domoticz plugin to integrate with zonnedimmer" value="Domoticz-ZonneDimmer-Plugin"/>
-                <option label="Domoticz Plugin to manage Shelly Gen2+ Devices" value="Domoticz-Shelly-Plugin"/>
-                <option label="Domoticz plugin to map MQTT topics to devices/Associe MQTT topics et Domoticz dispositifs" value="domoticz-mqttmapper-plugin"/>
-                <option label="Domoticz Plugin to poll Bluetti device via BLE" value="Domoticz-Bluetti-Plugin"/>
-                <option label="Domoticz plugin updates a "General,Text" Value with your Wan IP Address. This value can be used later on in order to update any scripts or notify you upon IP change." value="WAN-IP-CHECKER"/>
-                <option label="Domoticz plugin working with BMW Connected Drive" value="Domoticz-BMW-plugin"/>
-                <option label="Domoticz python plugin for Goodwe Solar Inverters via RS485" value="goodwe_rs485_domoticz"/>
-                <option label="Domoticz python plugin for samsung washing machine via Smartthings API" value="Domoticz-plugin-for-samsung-washing-machine"/>
-                <option label="Domoticz Python plugin for WeHeat heatpumps" value="weheat-domoticz-plugin"/>
-                <option label="Domoticz Python plugin manager" value="pp-manager"/>
-                <option label="Domoticz python plugin to connect / integrate with AWTRIX3" value="AWTRIX3"/>
-                <option label="Domoticz python plugin to display/log battery level of zwave devices" value="BatteryLevel"/>
-                <option label="Domoticz Theme Manager" value="domoticz-theme-manager"/>
-                <option label="Domoticz ThesslaGreen-modbus plugin" value="ThesslaGreen-modbus"/>
-                <option label="Domoticz-Em3255-Plugin plugin for Domoticz" value="Domoticz-Em3255-Plugin"/>
-                <option label="Domoticz-MCP-Plugin plugin for Domoticz" value="Domoticz-MCP-Plugin"/>
-                <option label="domoticz-powerview-plugin plugin for Domoticz" value="domoticz-powerview-plugin"/>
-                <option label="Domoticz-TinyTUYA-Local-Plugin plugin for Domoticz" value="Domoticz-TinyTUYA-Local-Plugin"/>
-                <option label="Domoticz-Volumio-Plugin plugin for Domoticz" value="Domoticz-Volumio-Plugin"/>
-                <option label="DTS238 energy meter plugin for Domoticz" value="domoticz-dts238"/>
-                <option label="E-Flux integration for Domoticz to fetch data" value="E-Flux"/>
-                <option label="ebusd plugin for Domoticz" value="ebusd"/>
-                <option label="Emmeti EQ 2021 amd EQ 3021 ES hot water heat pumps" value="domoticz-emmeti-eq2021"/>
-                <option label="EMMETI Mirai heat pump plugin for Domoticz home automation system" value="domoticz-emmeti-mirai"/>
-                <option label="Enigma2 Plugin for domoticz " value="Domoticz-Enigma2"/>
-                <option label="Extended version of the original HomeWizard Wi-Fi P1 Domoticz plugin with more detailed data and multi-language support." value="HomeWizard-Wifi-p1-plugin-Extended"/>
-                <option label="Fork de Krakinou (plugin Frisquet Connect pour Domoticz) — correctifs et évolutions" value="FrisquetConnectDomoticz"/>
-                <option label="FoxESS inverter & Domoticz integration" value="FoxESS-domoticz"/>
-                <option label="Freebox V6 (Revolution)" value="freeboxv6"/>
-                <option label="GitHub Stats Domoticz Plugin" value="domoticz-github"/>
-                <option label="Handles Dyson Pure Link in Domoticz as plugin" value="DysonPureLink"/>
-                <option label="Hisense air conditioners & Domoticz integrations" value="Hisense-AirCon-Domoticz"/>
-                <option label="Implements the special Tuya Home Assistant API." value="tuyaha"/>
-                <option label="LG ThinQ domoticz plugin" value="domoticz_lg_thinqconnect_plugin"/>
-                <option label="Linky plugin for Domoticz" value="Linky"/>
-                <option label="Matter plugin for Domoticz" value="Mattericz"/>
-                <option label="MQTT discovery plugin for Domoticz" value="MQTTDiscovery"/>
-                <option label="NEST Plugin for Domoticz using the Google credentials." value="Domoticz-NEST-plugin"/>
-                <option label="Not a perfect plugin but it works. " value="DomoticzNestPlugin"/>
-                <option label="OpenEVSE mqtt domoticz plugin" value="OpenEVSEPlugin"/>
-                <option label="Plugin dla platformy Domoticz umożliwiający pobieranie aktualnych danych pogodowych z publicznego API Instytutu Meteorologii i Gospodarki Wodnej (IMGW)." value="IMGW-Meteo"/>
-                <option label="plugin for comunication with zigbee sensors through tasmota to Domoticz" value="domoticz_zigbee2tasmota"/>
-                <option label="Plugin for control relay on GPIO PINs on RPI with domoticz" value="Domoticz-GPIO-Debian-13"/>
-                <option label="Plugin for Domoticz" value="Homewizard"/>
-                <option label="Plugin for domoticz for 1-wire DHT22/AM2301" value="DHT22-rpi"/>
-                <option label="Plugin for Domoticz managing one or more PZEM-016 and PZEM-014 energy meters (Modbus)" value="pzem016"/>
-                <option label="Plugin for Domoticz that manage 1 or more DDS238 ZN/S energy meter (DDS238-1 ZN/S , DDS238-2 ZN/S)" value="domoticz-dds238"/>
-                <option label="Plugin for Domoticz to get information from the Hyundai and Kia connect cloud" value="HyundaiKiaConnect"/>
-                <option label="Plugin for Domoticz to load the UI inside Domoticz, and add all workflows as devices that you can toggle on/off inside Domoticz." value="Domoticz-N8N-Plugin"/>
-                <option label="Plugin for Domoticz to read and control binds via a Brel Home Hub" value="Domoticz-Brel-Home-Hub-03-integration"/>
-                <option label="Plugin for retrieving and updating Quatt data." value="Quatt"/>
-                <option label="Plugin for retrieving and updating Steam status (Online/Offline) and game name." value="steam"/>
-                <option label="Plugin for sending commands to your Itho Wifi module." value="IthoWifi"/>
-                <option label="Plugin to collect datas from OpenDTU" value="Domoticz-OpenDTU-Plugin"/>
-                <option label="Plugin to control Sonoff Mini device from Domoticz" value="sonoff-domoticz-plugin"/>
-                <option label="Plugin to monitor and control Solax inverter from Domoticz via ModBUS over TCP/IP" value="Domoticz-Solax-plugin"/>
-                <option label="Python plugin for Domoticz: Presence detection from wireless router" value="iDetect"/>
-                <option label="Python plugin to manage Broadlink device from Domoticz" value="Broadlink-Domoticz-plugin"/>
-                <option label="Refork plugin de supermat" value="PluginDomoticzFreebox"/>
-                <option label="Sofar over modbus, Domoticz plugin" value="Sofar-modbus"/>
-                <option label="Synchronizes (part of) devices of a master instance to a slave one" value="domoticz-mqtt-sync-plugin"/>
-                <option label="Synology Monitoring Plugin.  Collects CPU, Memory, Heat, HDD Information and network load from Synology NAS Units" value="Domoticz-Synology-Plugin"/>
-                <option label="Synology SurveillanceStation plugin for Domoticz" value="Synology SurveillanceStation"/>
-                <option label="Tahoma/Conexoon plugin for IO blinds" value="domoticz_somfy"/>
-                <option label="Tailscale Integration" value="domoticz-tailscale-plugin"/>
-                <option label="Tasmota IR device control plugin that allows remote control of Wi-Fi-free, IR air conditioners from Domoticz" value="domoticz-ir-climate-controller"/>
-                <option label="Telnet based Denon / Marantz plugin" value="Denon4306"/>
-                <option label="This plugin connects to a WT53R range sensor over Modbus TCP protocol to measure water levels in rain tanks." value="Domoticz_WT53R_Rain_Tank_Sensor"/>
-                <option label="This plugin integrates Rhasspy intents with Domoticz devices via MQTT and Domoticz API." value="Domoticz-Rhasspy-Plugin"/>
-                <option label="This plugin is to be used in the Domoticz home automation package to control a Link-Tap watering system" value="Link-Tap"/>
-                <option label="This plugin makes it possible to use Shelly Devices in Domoticz. You can find the specific configuration and ToDo's on the Wiki page." value="ShellyCloudPlugin2"/>
-                <option label="Waze time travel plugin for Domoticz" value="Domoticz-WazeTimeTravel-Plugin"/>
-                <option label="WLANThermo plugin for Domoticz" value="WLANThermo"/>
-                <option label="Xiaomi Mi Robot Vacuum plugin for Domoticz" value="xiaomi-mi-robot-vacuum"/>
-                <option label="Zigbee plugin for Domoticz. Allow to connect various zigbee controllers like Zigate but also Texas Instrument CC2531, CC13x2, CC26x2 ; Silicon-Labs; deConz based chipset to be connected to Domoticz" value="Zigate"/>
-                <option label="zigbee2mqtt plugin for domoticz" value="Zigbee2Mqtt"/>
-                <option label="zigbee2mqtt plugin for domoticz" value="domoticz-zigbee2mqtt-plugin"/>
-            </options>
-        </param>
-        <param field="Mode3" label="Custom Plugin ID (from registry)" width="200px" default=""/>
-        <param field="Mode4" label="Auto Update" width="175px">
-            <options>
-                <option label="All" value="All"/>
-                <option label="All (NotifyOnly)" value="AllNotify" default="true"/>
-                <option label="Selected" value="Selected"/>
-                <option label="Selected (NotifyOnly)" value="SelectedNotify"/>
-                <option label="None" value="None"/>
-            </options>
-        </param>
-         <param field="Mode5" label="Security Scan (Experimental)" width="75px">
-            <options>
-                <option label="True" value="True"/>
-                <option label="False" value="False"  default="true" />
-            </options>
-        </param>
-         <param field="Mode6" label="Debug" width="75px">
-            <options>
-                <option label="True" value="Debug"/>
-                <option label="False" value="Normal"  default="true" />
-            </options>
-        </param>
-    </params>
-</plugin>
+        &lt;h2&gt;Python Plugin Manager&lt;/h2&gt;&lt;br/
+        This plugin manages other Domoticz Python plugins.&lt;br/&gt;&lt;br/
+        &lt;b&gt;Usage:&lt;/b&gt;&lt;br/
+        1. Add this hardware to Domoticz.&lt;br/
+        2. Navigate to &lt;b&gt;Custom&lt;/b&gt; -&gt; &lt;b&gt;Plugin Manager&lt;/b&gt; in the top menu to manage your plugins.
+    &lt;/description&gt;
+    &lt;params&gt;
+        &lt;param field="Mode4" label="Auto Update" width="175px"&gt;
+            &lt;options&gt;
+                &lt;option label="All" value="All"/>
+                &lt;option label="All (NotifyOnly)" value="AllNotify" default="true"/>
+                &lt;option label="None" value="None"/>
+            &lt;/options&gt;
+        &lt;/param&gt;
+        &lt;param field="Mode6" label="Debug" width="75px"&gt;
+            &lt;options&gt;
+                &lt;option label="True" value="Debug"/>
+                &lt;option label="False" value="Normal" default="true" /&gt;
+            &lt;/options&gt;
+        &lt;/param&gt;
+    &lt;/params&gt;
+&lt;/plugin&gt;
 """
+
 
 
 import os
@@ -197,6 +43,8 @@ import sys
 import time
 import urllib.error
 import urllib.request
+import json
+from datetime import datetime
 
 import Domoticz
 
@@ -277,21 +125,50 @@ class BasePlugin:
             sys.path.insert(0, shared_deps_dir)
             Domoticz.Log(f"Injected PP-MANAGER shared dependencies into sys.path: {shared_deps_dir}")
 
+        # Autoinstall/Update Custom UI
+        try:
+            import shutil
+            # Determine paths
+            home_folder_param = Parameters.get("HomeFolder", str(os.getcwd()) + "/")
+            html_src = os.path.join(home_folder_param, "pp-manager.html")
+            
+            # Find templates directory (relative to plugins folder)
+            domoticz_dir = os.path.abspath(os.path.join(home_folder_param, "..", ".."))
+            templates_dir = os.path.join(domoticz_dir, "www", "templates")
+            html_dst = os.path.join(templates_dir, "pp-manager.html")
+            
+            if os.path.isfile(html_src):
+                if not os.path.exists(templates_dir):
+                    Domoticz.Debug(f"Creating templates directory: {templates_dir}")
+                    os.makedirs(templates_dir, exist_ok=True)
+                
+                # Check if we need to copy (exists and different, or doesn't exist)
+                should_copy = True
+                if os.path.isfile(html_dst):
+                    src_mtime = os.path.getmtime(html_src)
+                    dst_mtime = os.path.getmtime(html_dst)
+                    if src_mtime <= dst_mtime:
+                        should_copy = False
+                
+                if should_copy:
+                    shutil.copyfile(html_src, html_dst)
+                    # Try to ensure it is readable by the web server
+                    os.chmod(html_dst, 0o644)
+                    Domoticz.Log(f"Custom UI autoinstalled/updated: {html_dst}")
+                else:
+                    Domoticz.Debug("Custom UI is already up to date.")
+        except Exception as e:
+            Domoticz.Error(f"Custom UI autoinstall failed: {e}")
+            Domoticz.Debug(f"Check permissions for: {templates_dir}")
+
+        if 1 not in Devices:
+            Domoticz.Device(Name="API Payload", Unit=1, TypeName="Text", DeviceID="PPM_API_PAYLOAD", Used=1).Create()
+        if 2 not in Devices:
+            Domoticz.Device(Name="API Trigger", Unit=2, Type=244, Subtype=73, Switchtype=9, DeviceID="PPM_API_TRIGGER", Used=1).Create()
+            
         self.fetch_registry()
 
-        plugin_key = Parameters.get("Mode3", "").strip() or Parameters["Mode2"]
-        if plugin_key == "Idle":
-            plugin_author, plugin_repository, plugin_text, plugin_branch = "Idle", "Idle", "Idle", "master"
-        elif plugin_key in self.plugin_data:
-            plugin_author = self.plugin_data[plugin_key][0]
-            plugin_repository = self.plugin_data[plugin_key][1]
-            plugin_text = self.plugin_data[plugin_key][2]
-            plugin_branch = self.plugin_data[plugin_key][3]
-        else:
-            Domoticz.Error("Selected plugin not found in registry.")
-            return
-
-        if Parameters["Mode5"] == 'True':
+        if Parameters.get("Mode5") == 'True':
             Domoticz.Log("Plugin Security Scan is enabled")
             secpoluserFile = os.path.join(plugins_dir, os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))), "secpoluser.txt")
             Domoticz.Debug("Checking for SecPolUser file on:" + secpoluserFile)
@@ -304,7 +181,7 @@ class BasePlugin:
                             secpoluserSection = line[4:]
                             Domoticz.Log("secpoluser settings found for plugin:" + secpoluserSection)
                         elif line and not line.startswith("--->"):
-                            Domoticz.Debug("SecPolUserList exception (" + secpoluserSection + "):'" + line + "'")
+                            Domoticz.Debug("SecPolUserList exception (" + secpoluserSection + "): '" + line + "'")
                             if secpoluserSection not in self.secpoluser_list:
                                 self.secpoluser_list[secpoluserSection] = []
                             self.secpoluser_list[secpoluserSection].append(line)
@@ -368,35 +245,82 @@ class BasePlugin:
                             Domoticz.Log(f"Plugin: {d} cannot be managed with PP-Manager!!.")
                 break
 
-        if Parameters["Mode4"] == 'SelectedNotify':
-            Domoticz.Log("Collecting Updates for Plugin:" + plugin_key)
-            if plugin_key in self.plugin_data:
-                self.CheckForUpdatePythonPlugin(plugin_author, plugin_repository, plugin_key)
+        Domoticz.Log("Plugin Manager Ready. Use the 'Custom' menu to manage plugins.")
+        Domoticz.Heartbeat(60)
 
-        if plugin_key == "Idle":
-            Domoticz.Log("Plugin Idle")
-            Domoticz.Heartbeat(60)
-        else:
-            plugin_target_dir = os.path.join(plugins_dir, plugin_key)
-            Domoticz.Debug("Checking for dir:" + plugin_target_dir)
-            if os.path.isdir(plugin_target_dir):
-                Domoticz.Debug("Folder for Plugin:" + plugin_key + " already exists!!!")
-                if Parameters["Mode4"] == 'Selected':
-                    Domoticz.Debug("Updating Enabled for Plugin:" + plugin_text + ".Checking For Update!!!")
-                    self.UpdatePythonPlugin(plugin_author, plugin_repository, plugin_key)
-                Domoticz.Heartbeat(60)
+    def onCommand(self, Unit, Command, Level, Hue):
+        Domoticz.Debug(f"onCommand called for Unit {Unit}: Command '{Command}', Level: {Level}")
+        if Unit == 2 and Command.lower() == "on":
+            if 1 in Devices:
+                payload_str = Devices[1].sValue
+                Domoticz.Debug(f"API Payload received: {payload_str}")
+                try:
+                    payload = json.loads(payload_str)
+                    self.tx_id = payload.get("tx_id")
+                    self.handleApiCommand(payload)
+                except Exception as e:
+                    Domoticz.Error(f"Failed to parse API payload: {e}")
+                    self.sendApiResponse({"status": "error", "message": "Invalid JSON payload"})
+
+    def handleApiCommand(self, payload):
+        import shutil
+        action = payload.get("action")
+        plugins_dir = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), ".."))
+        
+        if action == "list_plugins":
+            installed_plugins = []
+            for d in os.listdir(plugins_dir):
+                if os.path.isdir(os.path.join(plugins_dir, d)) and not d.startswith("."):
+                    installed_plugins.append(d)
+                    
+            self.sendApiResponse({
+                "status": "success",
+                "action": action,
+                "data": self.plugin_data,
+                "installed": installed_plugins
+            })
+        elif action == "install":
+            plugin_key = payload.get("plugin_key")
+            if plugin_key in self.plugin_data:
+                plugin_author = self.plugin_data[plugin_key][0]
+                plugin_repository = self.plugin_data[plugin_key][1]
+                plugin_branch = self.plugin_data[plugin_key][3]
+                self.InstallPythonPlugin(plugin_author, plugin_repository, plugin_key, plugin_branch)
+                self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
             else:
-                Domoticz.Log("Installation requested for Plugin:" + plugin_text)
-                Domoticz.Debug("Installation URL is: https://github.com/" + plugin_author + "/" + plugin_repository)
-                Domoticz.Debug("Current Working dir is:" + plugins_dir)
-                if plugin_key in self.plugin_data:
-                    Domoticz.Log("Plugin Display Name:" + plugin_text)
-                    Domoticz.Log("Plugin Author:" + plugin_author)
-                    Domoticz.Log("Plugin Repository:" + plugin_repository)
-                    Domoticz.Log("Plugin Key:" + plugin_key)
-                    Domoticz.Log("Plugin Branch:" + plugin_branch)
-                    self.InstallPythonPlugin(plugin_author, plugin_repository, plugin_key, plugin_branch)
-                Domoticz.Heartbeat(60)
+                self.sendApiResponse({"status": "error", "message": "Plugin not found"})
+        elif action == "update":
+            plugin_key = payload.get("plugin_key")
+            if plugin_key in self.plugin_data:
+                plugin_author = self.plugin_data[plugin_key][0]
+                plugin_repository = self.plugin_data[plugin_key][1]
+                self.UpdatePythonPlugin(plugin_author, plugin_repository, plugin_key)
+                self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
+            else:
+                self.sendApiResponse({"status": "error", "message": "Plugin not found"})
+        elif action == "remove":
+            plugin_key = payload.get("plugin_key")
+            plugin_target_dir = os.path.join(plugins_dir, plugin_key)
+            if os.path.isdir(plugin_target_dir) and plugin_key != os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))):
+                try:
+                    shutil.rmtree(plugin_target_dir)
+                    self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
+                except Exception as e:
+                    self.sendApiResponse({"status": "error", "message": str(e)})
+            else:
+                self.sendApiResponse({"status": "error", "message": "Plugin directory not found or cannot remove self"})
+        else:
+            self.sendApiResponse({"status": "error", "message": f"Unknown action: {action}"})
+
+    def sendApiResponse(self, response_dict):
+        if 1 in Devices:
+            try:
+                if hasattr(self, 'tx_id') and self.tx_id:
+                    response_dict['tx_id'] = self.tx_id
+                response_str = json.dumps(response_dict)
+                Devices[1].Update(nValue=0, sValue=response_str)
+            except Exception as e:
+                Domoticz.Error(f"Failed to send API response: {e}")
 
     def onStop(self):
         Domoticz.Debug("onStop called")
@@ -406,7 +330,6 @@ class BasePlugin:
 
     def onHeartbeat(self):
         Domoticz.Debug("onHeartbeat called")
-        plugin_key = Parameters.get("Mode3", "").strip() or Parameters["Mode2"]
 
         now = datetime.now()
         Domoticz.Debug(f"Current time: {now.strftime('%H:%M')}")
@@ -443,17 +366,6 @@ class BasePlugin:
                             else:
                                 Domoticz.Log(f"Plugin: {d} cannot be managed with PP-Manager!!.")
                     break
-
-            if Parameters["Mode4"] == 'SelectedNotify':
-                Domoticz.Log("Collecting Updates for Plugin:" + plugin_key)
-                if plugin_key in self.plugin_data:
-                    self.CheckForUpdatePythonPlugin(self.plugin_data[plugin_key][0], self.plugin_data[plugin_key][1], plugin_key)
-                else:
-                    Domoticz.Log(f"Plugin: {plugin_key} not found in plugin_data. Skipping update check.")
-
-            if Parameters["Mode4"] == 'Selected' and plugin_key in self.plugin_data:
-                Domoticz.Log(f"Checking Updates for Plugin: {self.plugin_data[plugin_key][2]}")
-                self.UpdatePythonPlugin(self.plugin_data[plugin_key][0], self.plugin_data[plugin_key][1], plugin_key)
 
     def InstallPythonPlugin(self, ppAuthor, ppRepository, ppKey, ppBranch):
         Domoticz.Debug("InstallPythonPlugin called")
@@ -613,7 +525,31 @@ class BasePlugin:
         except:
             return None
 
+    def is_private_ip(self, ip_str):
+        try:
+            octets = [int(o) for octet in ip_str.split('.') for o in octet.split()] # Handle potential spaces
+            octets = [int(o) for o in ip_str.split('.')]
+            if len(octets) != 4: return False
+            # Loopback
+            if octets[0] == 127: return True
+            # Class A private
+            if octets[0] == 10: return True
+            # Class B private
+            if octets[0] == 172 and 16 <= octets[1] <= 31: return True
+            # Class C private
+            if octets[0] == 192 and octets[1] == 168: return True
+            # Link-local
+            if octets[0] == 169 and octets[1] == 254: return True
+            # Broadcast / Software versions (e.g. 0.0.0.0)
+            if octets[0] == 0: return True
+            # Ignore Chrome version numbers (e.g. 124.0.0.0)
+            if octets[1] == 0 and octets[2] == 0 and octets[3] == 0: return True
+            return False
+        except:
+            return False
+
     def parseFileForSecurityIssues(self, pyfilename, pypluginid):
+        import ast
         Domoticz.Debug("parseFileForSecurityIssues called")
         if Parameters.get("Mode5") == 'True':
             Domoticz.Log(f"Scanning {pyfilename} for security issues...")
@@ -661,11 +597,19 @@ class BasePlugin:
 
                     exact_matches = {'os.system', 'os.popen', 'eval', 'exec', '__import__', 'compile', 'pickle.loads', 'pickle.load', 'os.remove', 'os.unlink', 'shutil.rmtree'}
 
-                    if func_full_name in exact_matches or func_full_name.startswith('subprocess.'):
+                    if func_full_name in exact_matches:
                         self.findings.append((node.lineno, f"Suspicious Call: {func_full_name}"))
+                    elif func_full_name.startswith('subprocess.'):
+                        # Specifically look for shell=True which is the biggest risk
+                        is_shell = False
+                        for keyword in node.keywords:
+                            if keyword.arg == 'shell' and isinstance(keyword.value, ast.Constant) and keyword.value.value is True:
+                                is_shell = True
+                        if is_shell:
+                            self.findings.append((node.lineno, f"Dangerous Subprocess (shell=True): {func_full_name}"))
                     elif func_base_name in {'eval', 'exec', '__import__', 'compile'}:
                         self.findings.append((node.lineno, f"Suspicious Call: {func_base_name}"))
-                    elif func_base_name in {'system', 'popen', 'loads', 'rmtree', 'unlink'}:
+                    elif func_base_name in {'system', 'popen', 'rmtree', 'unlink'}:
                         self.findings.append((node.lineno, f"Potentially Suspicious Call (Alias?): {func_base_name}"))
 
                     self.generic_visit(node)
@@ -690,14 +634,16 @@ class BasePlugin:
                 lineNum = i + 1
                 clean_text = text.strip()
 
-                if not clean_text or clean_text.startswith('#') or '<param field=' in clean_text:
+                # Ignore comments, empty lines, and explicit overrides
+                if not clean_text or clean_text.startswith('#') or '<param field=' in clean_text or '# security-ignore' in text or '# nosec' in text:
                     continue
 
                 findings = []
 
                 for ip in ip_pattern.findall(clean_text):
                     if all(0 <= int(octet) <= 255 for octet in ip.split('.')):
-                        findings.append(f"IP Address: {ip}")
+                        if not self.is_private_ip(ip):
+                            findings.append(f"Public IP Address: {ip}")
 
                 if lineNum in ast_findings_map:
                     findings.extend(ast_findings_map[lineNum])
@@ -722,6 +668,7 @@ class BasePlugin:
         plugins_dir = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), ".."))
         plugin_dir = os.path.join(plugins_dir, plugin_key)
         requirementsFile = os.path.join(plugin_dir, "requirements.txt")
+        home_folder = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), "..", ".."))
         shared_deps_dir = os.path.join(home_folder, "plugins", os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))), ".shared_deps")
 
         def check_cmd(cmd):
@@ -776,6 +723,10 @@ def onStop():
 def onHeartbeat():
     global _plugin
     _plugin.onHeartbeat()
+
+def onCommand(Unit, Command, Level, Hue):
+    global _plugin
+    _plugin.onCommand(Unit, Command, Level, Hue)
 
 # Generic helper functions
 def DumpConfigToLog():

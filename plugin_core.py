@@ -1,4 +1,5 @@
 
+
 import os
 import platform
 import re
@@ -7,6 +8,8 @@ import sys
 import time
 import urllib.error
 import urllib.request
+import json
+from datetime import datetime
 
 import Domoticz
 
@@ -87,21 +90,50 @@ class BasePlugin:
             sys.path.insert(0, shared_deps_dir)
             Domoticz.Log(f"Injected PP-MANAGER shared dependencies into sys.path: {shared_deps_dir}")
 
+        # Autoinstall/Update Custom UI
+        try:
+            import shutil
+            # Determine paths
+            home_folder_param = Parameters.get("HomeFolder", str(os.getcwd()) + "/")
+            html_src = os.path.join(home_folder_param, "pp-manager.html")
+            
+            # Find templates directory (relative to plugins folder)
+            domoticz_dir = os.path.abspath(os.path.join(home_folder_param, "..", ".."))
+            templates_dir = os.path.join(domoticz_dir, "www", "templates")
+            html_dst = os.path.join(templates_dir, "pp-manager.html")
+            
+            if os.path.isfile(html_src):
+                if not os.path.exists(templates_dir):
+                    Domoticz.Debug(f"Creating templates directory: {templates_dir}")
+                    os.makedirs(templates_dir, exist_ok=True)
+                
+                # Check if we need to copy (exists and different, or doesn't exist)
+                should_copy = True
+                if os.path.isfile(html_dst):
+                    src_mtime = os.path.getmtime(html_src)
+                    dst_mtime = os.path.getmtime(html_dst)
+                    if src_mtime <= dst_mtime:
+                        should_copy = False
+                
+                if should_copy:
+                    shutil.copyfile(html_src, html_dst)
+                    # Try to ensure it is readable by the web server
+                    os.chmod(html_dst, 0o644)
+                    Domoticz.Log(f"Custom UI autoinstalled/updated: {html_dst}")
+                else:
+                    Domoticz.Debug("Custom UI is already up to date.")
+        except Exception as e:
+            Domoticz.Error(f"Custom UI autoinstall failed: {e}")
+            Domoticz.Debug(f"Check permissions for: {templates_dir}")
+
+        if 1 not in Devices:
+            Domoticz.Device(Name="API Payload", Unit=1, TypeName="Text", DeviceID="PPM_API_PAYLOAD", Used=1).Create()
+        if 2 not in Devices:
+            Domoticz.Device(Name="API Trigger", Unit=2, Type=244, Subtype=73, Switchtype=9, DeviceID="PPM_API_TRIGGER", Used=1).Create()
+            
         self.fetch_registry()
 
-        plugin_key = Parameters.get("Mode3", "").strip() or Parameters["Mode2"]
-        if plugin_key == "Idle":
-            plugin_author, plugin_repository, plugin_text, plugin_branch = "Idle", "Idle", "Idle", "master"
-        elif plugin_key in self.plugin_data:
-            plugin_author = self.plugin_data[plugin_key][0]
-            plugin_repository = self.plugin_data[plugin_key][1]
-            plugin_text = self.plugin_data[plugin_key][2]
-            plugin_branch = self.plugin_data[plugin_key][3]
-        else:
-            Domoticz.Error("Selected plugin not found in registry.")
-            return
-
-        if Parameters["Mode5"] == 'True':
+        if Parameters.get("Mode5") == 'True':
             Domoticz.Log("Plugin Security Scan is enabled")
             secpoluserFile = os.path.join(plugins_dir, os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))), "secpoluser.txt")
             Domoticz.Debug("Checking for SecPolUser file on:" + secpoluserFile)
@@ -114,7 +146,7 @@ class BasePlugin:
                             secpoluserSection = line[4:]
                             Domoticz.Log("secpoluser settings found for plugin:" + secpoluserSection)
                         elif line and not line.startswith("--->"):
-                            Domoticz.Debug("SecPolUserList exception (" + secpoluserSection + "):'" + line + "'")
+                            Domoticz.Debug("SecPolUserList exception (" + secpoluserSection + "): '" + line + "'")
                             if secpoluserSection not in self.secpoluser_list:
                                 self.secpoluser_list[secpoluserSection] = []
                             self.secpoluser_list[secpoluserSection].append(line)
@@ -178,35 +210,82 @@ class BasePlugin:
                             Domoticz.Log(f"Plugin: {d} cannot be managed with PP-Manager!!.")
                 break
 
-        if Parameters["Mode4"] == 'SelectedNotify':
-            Domoticz.Log("Collecting Updates for Plugin:" + plugin_key)
-            if plugin_key in self.plugin_data:
-                self.CheckForUpdatePythonPlugin(plugin_author, plugin_repository, plugin_key)
+        Domoticz.Log("Plugin Manager Ready. Use the 'Custom' menu to manage plugins.")
+        Domoticz.Heartbeat(60)
 
-        if plugin_key == "Idle":
-            Domoticz.Log("Plugin Idle")
-            Domoticz.Heartbeat(60)
-        else:
-            plugin_target_dir = os.path.join(plugins_dir, plugin_key)
-            Domoticz.Debug("Checking for dir:" + plugin_target_dir)
-            if os.path.isdir(plugin_target_dir):
-                Domoticz.Debug("Folder for Plugin:" + plugin_key + " already exists!!!")
-                if Parameters["Mode4"] == 'Selected':
-                    Domoticz.Debug("Updating Enabled for Plugin:" + plugin_text + ".Checking For Update!!!")
-                    self.UpdatePythonPlugin(plugin_author, plugin_repository, plugin_key)
-                Domoticz.Heartbeat(60)
+    def onCommand(self, Unit, Command, Level, Hue):
+        Domoticz.Debug(f"onCommand called for Unit {Unit}: Command '{Command}', Level: {Level}")
+        if Unit == 2 and Command.lower() == "on":
+            if 1 in Devices:
+                payload_str = Devices[1].sValue
+                Domoticz.Debug(f"API Payload received: {payload_str}")
+                try:
+                    payload = json.loads(payload_str)
+                    self.tx_id = payload.get("tx_id")
+                    self.handleApiCommand(payload)
+                except Exception as e:
+                    Domoticz.Error(f"Failed to parse API payload: {e}")
+                    self.sendApiResponse({"status": "error", "message": "Invalid JSON payload"})
+
+    def handleApiCommand(self, payload):
+        import shutil
+        action = payload.get("action")
+        plugins_dir = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), ".."))
+        
+        if action == "list_plugins":
+            installed_plugins = []
+            for d in os.listdir(plugins_dir):
+                if os.path.isdir(os.path.join(plugins_dir, d)) and not d.startswith("."):
+                    installed_plugins.append(d)
+                    
+            self.sendApiResponse({
+                "status": "success",
+                "action": action,
+                "data": self.plugin_data,
+                "installed": installed_plugins
+            })
+        elif action == "install":
+            plugin_key = payload.get("plugin_key")
+            if plugin_key in self.plugin_data:
+                plugin_author = self.plugin_data[plugin_key][0]
+                plugin_repository = self.plugin_data[plugin_key][1]
+                plugin_branch = self.plugin_data[plugin_key][3]
+                self.InstallPythonPlugin(plugin_author, plugin_repository, plugin_key, plugin_branch)
+                self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
             else:
-                Domoticz.Log("Installation requested for Plugin:" + plugin_text)
-                Domoticz.Debug("Installation URL is: https://github.com/" + plugin_author + "/" + plugin_repository)
-                Domoticz.Debug("Current Working dir is:" + plugins_dir)
-                if plugin_key in self.plugin_data:
-                    Domoticz.Log("Plugin Display Name:" + plugin_text)
-                    Domoticz.Log("Plugin Author:" + plugin_author)
-                    Domoticz.Log("Plugin Repository:" + plugin_repository)
-                    Domoticz.Log("Plugin Key:" + plugin_key)
-                    Domoticz.Log("Plugin Branch:" + plugin_branch)
-                    self.InstallPythonPlugin(plugin_author, plugin_repository, plugin_key, plugin_branch)
-                Domoticz.Heartbeat(60)
+                self.sendApiResponse({"status": "error", "message": "Plugin not found"})
+        elif action == "update":
+            plugin_key = payload.get("plugin_key")
+            if plugin_key in self.plugin_data:
+                plugin_author = self.plugin_data[plugin_key][0]
+                plugin_repository = self.plugin_data[plugin_key][1]
+                self.UpdatePythonPlugin(plugin_author, plugin_repository, plugin_key)
+                self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
+            else:
+                self.sendApiResponse({"status": "error", "message": "Plugin not found"})
+        elif action == "remove":
+            plugin_key = payload.get("plugin_key")
+            plugin_target_dir = os.path.join(plugins_dir, plugin_key)
+            if os.path.isdir(plugin_target_dir) and plugin_key != os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))):
+                try:
+                    shutil.rmtree(plugin_target_dir)
+                    self.sendApiResponse({"status": "success", "action": action, "plugin_key": plugin_key})
+                except Exception as e:
+                    self.sendApiResponse({"status": "error", "message": str(e)})
+            else:
+                self.sendApiResponse({"status": "error", "message": "Plugin directory not found or cannot remove self"})
+        else:
+            self.sendApiResponse({"status": "error", "message": f"Unknown action: {action}"})
+
+    def sendApiResponse(self, response_dict):
+        if 1 in Devices:
+            try:
+                if hasattr(self, 'tx_id') and self.tx_id:
+                    response_dict['tx_id'] = self.tx_id
+                response_str = json.dumps(response_dict)
+                Devices[1].Update(nValue=0, sValue=response_str)
+            except Exception as e:
+                Domoticz.Error(f"Failed to send API response: {e}")
 
     def onStop(self):
         Domoticz.Debug("onStop called")
@@ -216,7 +295,6 @@ class BasePlugin:
 
     def onHeartbeat(self):
         Domoticz.Debug("onHeartbeat called")
-        plugin_key = Parameters.get("Mode3", "").strip() or Parameters["Mode2"]
 
         now = datetime.now()
         Domoticz.Debug(f"Current time: {now.strftime('%H:%M')}")
@@ -253,17 +331,6 @@ class BasePlugin:
                             else:
                                 Domoticz.Log(f"Plugin: {d} cannot be managed with PP-Manager!!.")
                     break
-
-            if Parameters["Mode4"] == 'SelectedNotify':
-                Domoticz.Log("Collecting Updates for Plugin:" + plugin_key)
-                if plugin_key in self.plugin_data:
-                    self.CheckForUpdatePythonPlugin(self.plugin_data[plugin_key][0], self.plugin_data[plugin_key][1], plugin_key)
-                else:
-                    Domoticz.Log(f"Plugin: {plugin_key} not found in plugin_data. Skipping update check.")
-
-            if Parameters["Mode4"] == 'Selected' and plugin_key in self.plugin_data:
-                Domoticz.Log(f"Checking Updates for Plugin: {self.plugin_data[plugin_key][2]}")
-                self.UpdatePythonPlugin(self.plugin_data[plugin_key][0], self.plugin_data[plugin_key][1], plugin_key)
 
     def InstallPythonPlugin(self, ppAuthor, ppRepository, ppKey, ppBranch):
         Domoticz.Debug("InstallPythonPlugin called")
@@ -423,7 +490,31 @@ class BasePlugin:
         except:
             return None
 
+    def is_private_ip(self, ip_str):
+        try:
+            octets = [int(o) for octet in ip_str.split('.') for o in octet.split()] # Handle potential spaces
+            octets = [int(o) for o in ip_str.split('.')]
+            if len(octets) != 4: return False
+            # Loopback
+            if octets[0] == 127: return True
+            # Class A private
+            if octets[0] == 10: return True
+            # Class B private
+            if octets[0] == 172 and 16 <= octets[1] <= 31: return True
+            # Class C private
+            if octets[0] == 192 and octets[1] == 168: return True
+            # Link-local
+            if octets[0] == 169 and octets[1] == 254: return True
+            # Broadcast / Software versions (e.g. 0.0.0.0)
+            if octets[0] == 0: return True
+            # Ignore Chrome version numbers (e.g. 124.0.0.0)
+            if octets[1] == 0 and octets[2] == 0 and octets[3] == 0: return True
+            return False
+        except:
+            return False
+
     def parseFileForSecurityIssues(self, pyfilename, pypluginid):
+        import ast
         Domoticz.Debug("parseFileForSecurityIssues called")
         if Parameters.get("Mode5") == 'True':
             Domoticz.Log(f"Scanning {pyfilename} for security issues...")
@@ -471,11 +562,19 @@ class BasePlugin:
 
                     exact_matches = {'os.system', 'os.popen', 'eval', 'exec', '__import__', 'compile', 'pickle.loads', 'pickle.load', 'os.remove', 'os.unlink', 'shutil.rmtree'}
 
-                    if func_full_name in exact_matches or func_full_name.startswith('subprocess.'):
+                    if func_full_name in exact_matches:
                         self.findings.append((node.lineno, f"Suspicious Call: {func_full_name}"))
+                    elif func_full_name.startswith('subprocess.'):
+                        # Specifically look for shell=True which is the biggest risk
+                        is_shell = False
+                        for keyword in node.keywords:
+                            if keyword.arg == 'shell' and isinstance(keyword.value, ast.Constant) and keyword.value.value is True:
+                                is_shell = True
+                        if is_shell:
+                            self.findings.append((node.lineno, f"Dangerous Subprocess (shell=True): {func_full_name}"))
                     elif func_base_name in {'eval', 'exec', '__import__', 'compile'}:
                         self.findings.append((node.lineno, f"Suspicious Call: {func_base_name}"))
-                    elif func_base_name in {'system', 'popen', 'loads', 'rmtree', 'unlink'}:
+                    elif func_base_name in {'system', 'popen', 'rmtree', 'unlink'}:
                         self.findings.append((node.lineno, f"Potentially Suspicious Call (Alias?): {func_base_name}"))
 
                     self.generic_visit(node)
@@ -500,14 +599,16 @@ class BasePlugin:
                 lineNum = i + 1
                 clean_text = text.strip()
 
-                if not clean_text or clean_text.startswith('#') or '<param field=' in clean_text:
+                # Ignore comments, empty lines, and explicit overrides
+                if not clean_text or clean_text.startswith('#') or '<param field=' in clean_text or '# security-ignore' in text or '# nosec' in text:
                     continue
 
                 findings = []
 
                 for ip in ip_pattern.findall(clean_text):
                     if all(0 <= int(octet) <= 255 for octet in ip.split('.')):
-                        findings.append(f"IP Address: {ip}")
+                        if not self.is_private_ip(ip):
+                            findings.append(f"Public IP Address: {ip}")
 
                 if lineNum in ast_findings_map:
                     findings.extend(ast_findings_map[lineNum])
@@ -532,6 +633,7 @@ class BasePlugin:
         plugins_dir = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), ".."))
         plugin_dir = os.path.join(plugins_dir, plugin_key)
         requirementsFile = os.path.join(plugin_dir, "requirements.txt")
+        home_folder = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), "..", ".."))
         shared_deps_dir = os.path.join(home_folder, "plugins", os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))), ".shared_deps")
 
         def check_cmd(cmd):
@@ -586,6 +688,10 @@ def onStop():
 def onHeartbeat():
     global _plugin
     _plugin.onHeartbeat()
+
+def onCommand(Unit, Command, Level, Hue):
+    global _plugin
+    _plugin.onCommand(Unit, Command, Level, Hue)
 
 # Generic helper functions
 def DumpConfigToLog():
