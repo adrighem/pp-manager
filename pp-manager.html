@@ -1,137 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PP-Manager</title>
-    <style>
-        :root {
-            --bg-color: #f4f4f9;
-            --text-color: #333;
-            --card-bg: #fff;
-            --border-color: #ddd;
-            --primary: #007bff;
-            --primary-hover: #0056b3;
-            --danger: #dc3545;
-            --danger-hover: #c82333;
-            --success: #28a745;
-        }
+<style>
+    :root {
+        --bg-color: #f4f4f9;
+        --text-color: #333;
+        --card-bg: #fff;
+        --border-color: #ddd;
+        --primary: #007bff;
+        --primary-hover: #0056b3;
+        --danger: #dc3545;
+        --danger-hover: #c82333;
+        --success: #28a745;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-        }
+    #pp-manager-container {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text-color);
+        padding: 20px;
+    }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+    #pp-manager-container .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    #pp-manager-container h1 {
+        margin: 0;
+        color: var(--primary);
+    }
 
-        h1 {
-            margin: 0;
-            color: var(--primary);
-        }
+    #pp-manager-status {
+        font-weight: bold;
+        color: #666;
+    }
 
-        #status {
-            font-weight: bold;
-            color: #666;
-        }
+    #pp-manager-container .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
+    #pp-manager-container .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+    }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-        }
+    #pp-manager-container .card-header {
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
 
-        .card-header {
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    #pp-manager-container .card-desc {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 15px;
+        flex-grow: 1;
+    }
 
-        .card-desc {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 15px;
-            flex-grow: 1;
-        }
+    #pp-manager-container .card-meta {
+        font-size: 0.8em;
+        color: #888;
+        margin-bottom: 15px;
+    }
 
-        .card-meta {
-            font-size: 0.8em;
-            color: #888;
-            margin-bottom: 15px;
-        }
+    #pp-manager-container .actions {
+        display: flex;
+        gap: 10px;
+    }
 
-        .actions {
-            display: flex;
-            gap: 10px;
-        }
+    #pp-manager-container button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        flex: 1;
+        transition: background 0.2s;
+    }
 
-        button {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            flex: 1;
-            transition: background 0.2s;
-        }
+    .btn-install { background: var(--primary); color: white; }
+    .btn-install:hover { background: var(--primary-hover); }
 
-        .btn-install {
-            background: var(--primary);
-            color: white;
-        }
-        .btn-install:hover { background: var(--primary-hover); }
+    .btn-remove { background: var(--danger); color: white; }
+    .btn-remove:hover { background: var(--danger-hover); }
 
-        .btn-remove {
-            background: var(--danger);
-            color: white;
-        }
-        .btn-remove:hover { background: var(--danger-hover); }
+    .btn-update { background: var(--success); color: white; }
+    
+    .installed-badge {
+        display: inline-block;
+        background: var(--success);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 0.7em;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
+</style>
 
-        .btn-update {
-            background: var(--success);
-            color: white;
-        }
-        
-        .installed-badge {
-            display: inline-block;
-            background: var(--success);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 0.7em;
-            margin-left: 10px;
-            vertical-align: middle;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
+<div id="pp-manager-container">
     <div class="header">
         <h1>PP-Manager: Plugin Store</h1>
-        <div id="status">Initializing...</div>
+        <div id="pp-manager-status">Initializing...</div>
     </div>
     
     <div id="plugins-list" class="grid">
@@ -140,14 +116,26 @@
 </div>
 
 <script>
+(function() {
+    console.log("PP-Manager script starting...");
     let payloadIdx = null;
     let triggerIdx = null;
     let isLoading = false;
 
+    function setStatus(msg) {
+        console.log("PP-Manager Status: " + msg);
+        const el = document.getElementById('pp-manager-status');
+        if (el) el.innerText = msg;
+    }
+
     async function init() {
+        if (document.getElementById('pp-manager-status').innerText !== 'Initializing...') {
+            return; // Already running
+        }
+        
         setStatus("Finding API bridge...");
         try {
-            const req = await fetch('/json.htm?type=command&param=getdevices&filter=all&used=true');
+            const req = await fetch('json.htm?type=command&param=getdevices&filter=all&used=true');
             const devices = await req.json();
             
             if (devices.result) {
@@ -166,14 +154,12 @@
                 return;
             }
             
+            console.log("Found bridge devices: Payload=" + payloadIdx + ", Trigger=" + triggerIdx);
             loadPlugins();
         } catch (e) {
+            console.error(e);
             setStatus("Failed to connect to Domoticz API.");
         }
-    }
-
-    function setStatus(msg) {
-        document.getElementById('status').innerText = msg;
     }
 
     async function sendCommand(action, data) {
@@ -184,17 +170,12 @@
         isLoading = true;
         
         try {
-            // Append a unique transaction ID so we can match the response reliably
             const txId = Date.now().toString();
             const payload = JSON.stringify({ action, tx_id: txId, ...data });
             
-            // 1. Update Payload Device
-            await fetch(`/json.htm?type=command&param=udevice&idx=${payloadIdx}&nvalue=0&svalue=${encodeURIComponent(payload)}`);
+            await fetch(`json.htm?type=command&param=udevice&idx=${payloadIdx}&nvalue=0&svalue=${encodeURIComponent(payload)}`);
+            await fetch(`json.htm?type=command&param=switchlight&idx=${triggerIdx}&switchcmd=On`);
             
-            // 2. Trigger Action
-            await fetch(`/json.htm?type=command&param=switchlight&idx=${triggerIdx}&switchcmd=On`);
-            
-            // 3. Poll for response
             return await pollResponse(action, txId);
         } finally {
             isLoading = false;
@@ -203,22 +184,19 @@
 
     async function pollResponse(action, txId, retries = 120) {
         for (let i = 0; i < retries; i++) {
-            await new Promise(r => setTimeout(r, 1000)); // Wait 1 second between polls
+            await new Promise(r => setTimeout(r, 1000));
             try {
-                const req = await fetch(`/json.htm?type=devices&rid=${payloadIdx}`);
+                const req = await fetch(`json.htm?type=devices&rid=${payloadIdx}`);
                 const resp = await req.json();
                 
                 if (resp.result && resp.result.length > 0) {
                     const dataStr = resp.result[0].Data;
                     try {
                         const data = JSON.parse(dataStr);
-                        // Check if the response matches our transaction ID
                         if (data.action === action && data.tx_id === txId) {
-                            return data; // Got response
+                            return data;
                         }
-                    } catch (e) {
-                        // Ignore parsing errors, it might be the request payload or non-JSON data
-                    }
+                    } catch (e) {}
                 }
             } catch (e) {
                 console.error("Polling error", e);
@@ -244,9 +222,9 @@
 
     function renderPlugins(pluginData, installedList) {
         const container = document.getElementById('plugins-list');
+        if (!container) return;
         container.innerHTML = '';
         
-        // Sort keys alphabetically
         const keys = Object.keys(pluginData).sort((a, b) => pluginData[a][2].localeCompare(pluginData[b][2]));
 
         for (const key of keys) {
@@ -255,8 +233,7 @@
             const repo = info[1];
             const name = info[2];
             const branch = info[3];
-            
-            const isInstalled = installedList.includes(key);
+            const isInstalled = installedList.indexOf(key) !== -1;
 
             const card = document.createElement('div');
             card.className = 'card';
@@ -271,14 +248,16 @@
                 <div class="actions">
             `;
             
+            const cardId = 'btn-' + key.replace(/[^a-z0-9]/gi, '-');
+
             if (isInstalled) {
                 html += `
-                    <button class="btn-update" onclick="handleAction('update', '${key}')">Update</button>
-                    <button class="btn-remove" onclick="handleAction('remove', '${key}')">Remove</button>
+                    <button class="btn-update" data-key="${key}" data-action="update">Update</button>
+                    <button class="btn-remove" data-key="${key}" data-action="remove">Remove</button>
                 `;
             } else {
                 html += `
-                    <button class="btn-install" onclick="handleAction('install', '${key}')">Install</button>
+                    <button class="btn-install" data-key="${key}" data-action="install">Install</button>
                 `;
             }
             
@@ -286,6 +265,13 @@
             card.innerHTML = html;
             container.appendChild(card);
         }
+
+        // Add event listeners
+        container.querySelectorAll('button').forEach(btn => {
+            btn.onclick = function() {
+                handleAction(this.getAttribute('data-action'), this.getAttribute('data-key'));
+            };
+        });
     }
 
     async function handleAction(action, pluginKey) {
@@ -298,7 +284,7 @@
             const response = await sendCommand(action, { plugin_key: pluginKey });
             if (response && response.status === 'success') {
                 alert(`Successfully completed ${action} for ${pluginKey}. Domoticz restart may be required.`);
-                loadPlugins(); // Reload to update UI state
+                loadPlugins();
             } else {
                 alert(`Error during ${action}: ` + (response ? response.message : "Unknown error"));
                 setStatus("Operation failed.");
@@ -309,14 +295,14 @@
         }
     }
 
-    // Start initialization
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+    // Domoticz SPA might load this multiple times or at different ready states
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(init, 100);
     } else {
-        // DOM already loaded (typical in SPA / Angular routing)
-        init();
+        document.addEventListener('DOMContentLoaded', init);
     }
+    
+    // Fallback for some browsers/SPA engines
+    window.onload = init;
+})();
 </script>
-
-</body>
-</html>
