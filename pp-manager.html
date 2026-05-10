@@ -309,8 +309,13 @@
         }
     }
 
-    // Start initialization when DOM is loaded
-    document.addEventListener('DOMContentLoaded', init);
+    // Start initialization
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        // DOM already loaded (typical in SPA / Angular routing)
+        init();
+    }
 </script>
 
 </body>
