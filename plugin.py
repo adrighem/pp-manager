@@ -541,6 +541,8 @@ class BasePlugin:
             if octets[0] == 169 and octets[1] == 254: return True
             # Broadcast / Software versions (e.g. 0.0.0.0)
             if octets[0] == 0: return True
+            # Ignore Chrome version numbers (e.g. 124.0.0.0)
+            if octets[1] == 0 and octets[2] == 0 and octets[3] == 0: return True
             return False
         except:
             return False
