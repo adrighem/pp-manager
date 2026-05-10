@@ -91,6 +91,8 @@
     .btn-remove:hover { background: var(--danger-hover); }
 
     .btn-update { background: var(--success); color: white; }
+    .btn-info { background: #17a2b8; color: white; }
+    .btn-info:hover { background: #138496; }
     
     .installed-badge {
         display: inline-block;
@@ -251,6 +253,7 @@
                 <div class="card-desc">Provides integration for ${name}.</div>
                 <div class="card-meta">Author: ${author} <br> Repo: ${repo} (${branch})</div>
                 <div class="actions">
+                    <button class="btn-info" onclick="window.open('https://github.com/${author}/${repo}', '_blank')">Repo</button>
             `;
             
             const cardId = 'btn-' + key.replace(/[^a-z0-9]/gi, '-');
