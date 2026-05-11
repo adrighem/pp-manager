@@ -7,7 +7,7 @@
 
 
 """
-<plugin key="PyPluginStore" name="PyPluginStore" author="adrighem" version="2.2.0" externallink="https://www.domoticz.com/forum/viewtopic.php?f=65&t=22339"> <!-- x-release-please-version -->
+<plugin key="PP-MANAGER" name="PyPluginStore" author="adrighem" version="2.2.0" externallink="https://www.domoticz.com/forum/viewtopic.php?f=65&t=22339"> <!-- x-release-please-version -->
     <description>
         <h2>PyPluginStore</h2><br/>
         This plugin manages other Domoticz Python plugins.<br/><br/>
@@ -141,6 +141,15 @@ class BasePlugin:
                 if not os.path.exists(templates_dir):
                     Domoticz.Debug(f"Creating templates directory: {templates_dir}")
                     os.makedirs(templates_dir, exist_ok=True)
+                
+                # Remove legacy UI if it exists
+                old_html_dst = os.path.join(templates_dir, "pp-manager.html")
+                if os.path.isfile(old_html_dst):
+                    try:
+                        os.remove(old_html_dst)
+                        Domoticz.Log(f"Removed legacy UI file: {old_html_dst}")
+                    except Exception as e:
+                        Domoticz.Error(f"Failed to remove legacy UI file: {e}")
                 
                 # Check if we need to copy (exists and different, or doesn't exist)
                 should_copy = True
