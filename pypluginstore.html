@@ -11,30 +11,30 @@
         --success: #28a745;
     }
 
-    #pp-manager-container {
+    #pypluginstore-container {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         color: var(--text-color);
         padding: 20px;
     }
 
-    #pp-manager-container .header {
+    #pypluginstore-container .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
     }
 
-    #pp-manager-container h1 {
+    #pypluginstore-container h1 {
         margin: 0;
         color: var(--primary);
     }
 
-    #pp-manager-status {
+    #PyPluginStore-status {
         font-weight: bold;
         color: #666;
     }
 
-    #pp-manager-container .filters {
+    #pypluginstore-container .filters {
         display: flex;
         gap: 20px;
         margin-bottom: 20px;
@@ -45,7 +45,7 @@
         border: 1px solid var(--border-color);
     }
 
-    #pp-manager-container .filters input[type="text"] {
+    #pypluginstore-container .filters input[type="text"] {
         flex-grow: 1;
         padding: 8px 12px;
         border: 1px solid var(--border-color);
@@ -53,7 +53,7 @@
         font-size: 1em;
     }
 
-    #pp-manager-container .filters label {
+    #pypluginstore-container .filters label {
         display: flex;
         align-items: center;
         gap: 12px;
@@ -112,13 +112,13 @@
         transform: translateX(26px);
     }
 
-    #pp-manager-container .grid {
+    #pypluginstore-container .grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 20px;
     }
 
-    #pp-manager-container .card {
+    #pypluginstore-container .card {
         background: var(--card-bg);
         border: 1px solid var(--border-color);
         border-radius: 8px;
@@ -128,33 +128,33 @@
         flex-direction: column;
     }
 
-    #pp-manager-container .card-header {
+    #pypluginstore-container .card-header {
         font-size: 1.1em;
         font-weight: bold;
         margin-bottom: 10px;
     }
 
-    #pp-manager-container .card-desc {
+    #pypluginstore-container .card-desc {
         font-size: 0.9em;
         color: #666;
         margin-bottom: 15px;
         flex-grow: 1;
     }
 
-    #pp-manager-container .card-meta {
+    #pypluginstore-container .card-meta {
         font-size: 0.8em;
         color: #888;
         margin-bottom: 15px;
     }
 
-    #pp-manager-container .actions {
+    #pypluginstore-container .actions {
         display: flex;
         gap: 10px;
         align-items: stretch;
     }
 
-    #pp-manager-container button, 
-    #pp-manager-container .btn-link {
+    #pypluginstore-container button, 
+    #pypluginstore-container .btn-link {
         padding: 8px 12px;
         border: none;
         border-radius: 4px;
@@ -195,10 +195,10 @@
     }
 </style>
 
-<div id="pp-manager-container">
+<div id="pypluginstore-container">
     <div class="header">
-        <h1>PP-Manager: Plugin Store</h1>
-        <div id="pp-manager-status">Initializing...</div>
+        <h1>PyPluginStore: Plugin Store</h1>
+        <div id="pypluginstore-status">Initializing...</div>
     </div>
 
     <div class="filters">
@@ -219,7 +219,7 @@
 
 <script>
 (function() {
-    console.log("PP-Manager script starting...");
+    console.log("PyPluginStore script starting...");
     let payloadIdx = null;
     let triggerIdx = null;
     let isLoading = false;
@@ -227,13 +227,13 @@
     let installedCache = [];
 
     function setStatus(msg) {
-        console.log("PP-Manager Status: " + msg);
-        const el = document.getElementById('pp-manager-status');
+        console.log("PyPluginStore Status: " + msg);
+        const el = document.getElementById('PyPluginStore-status');
         if (el) el.innerText = msg;
     }
 
     async function init() {
-        if (document.getElementById('pp-manager-status').innerText !== 'Initializing...') {
+        if (document.getElementById('PyPluginStore-status').innerText !== 'Initializing...') {
             return; // Already running
         }
 
@@ -260,7 +260,7 @@
             }
             
             if (!payloadIdx || !triggerIdx) {
-                setStatus("Error: PP-Manager devices not found (" + (payloadIdx?'Y':'N') + "/" + (triggerIdx?'Y':'N') + "). Please ensure the plugin is added in Hardware.");
+                setStatus("Error: PyPluginStore devices not found (" + (payloadIdx?'Y':'N') + "/" + (triggerIdx?'Y':'N') + "). Please ensure the plugin is added in Hardware.");
                 return;
             }
             

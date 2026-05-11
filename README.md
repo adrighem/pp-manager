@@ -1,4 +1,4 @@
-# Python Plugin Manager for Domoticz (PP-MANAGER)
+# PyPluginStore for Domoticz (PyPluginStore)
 
 A robust and modern plugin manager for Domoticz that allows you to install and automatically update other Python plugins directly from GitHub.
 
@@ -6,7 +6,7 @@ A robust and modern plugin manager for Domoticz that allows you to install and a
 
 ![Plugin Store](store.png)
 
-> **A Fork for the Future:** This repository is a modernized fork of the original [ycahome/pp-manager](https://github.com/ycahome/pp-manager). It was created to clean up the codebase, ensure full compatibility with modern Python versions (including Python 3.13 and up), and introduce significantly advanced security and dependency management features.
+> **A Fork for the Future:** This repository is a modernized fork of the original [ycahome/PyPluginStore](https://github.com/ycahome/PyPluginStore). It was created to clean up the codebase, ensure full compatibility with modern Python versions (including Python 3.13 and up), and introduce significantly advanced security and dependency management features.
 
 ---
 
@@ -42,15 +42,15 @@ This fork introduces a vastly improved **Abstract Syntax Tree (AST)** based secu
 
 ## 📥 Installation
 
-Navigate to your Domoticz `plugins` folder and clone this repository as `00-PP-MANAGER`.
+Navigate to your Domoticz `plugins` folder and clone this repository as `00-PyPluginStore`.
 
 ```bash
 cd domoticz/plugins
-git clone https://github.com/adrighem/pp-manager.git 00-PP-MANAGER
+git clone https://github.com/adrighem/PyPluginStore.git 00-PyPluginStore
 ```
 
-### Why `00-PP-MANAGER`?
-Domoticz loads Python plugins alphabetically by folder name. Prefixing with `00-` ensures that the manager loads first. This enables `PP-MANAGER` to set up the shared dependency environment (`.shared_deps`) so other plugins can load their required libraries immediately on startup.
+### Why `00-PyPluginStore`?
+Domoticz loads Python plugins alphabetically by folder name. Prefixing with `00-` ensures that the manager loads first. This enables `PyPluginStore` to set up the shared dependency environment (`.shared_deps`) so other plugins can load their required libraries immediately on startup.
 
 After cloning, restart your Domoticz service:
 ```bash
@@ -63,7 +63,7 @@ sudo systemctl restart domoticz.service
 
 Once installed and Domoticz is restarted:
 
-1.  Go to **Setup -> Hardware** and add the **Python Plugin Manager** hardware.
+1.  Go to **Setup -> Hardware** and add the **PyPluginStore** hardware.
 2.  Navigate to **Custom -> Plugin Manager** in the top menu to open the Plugin Store dashboard.
 
 ### Settings (Hardware Page)
@@ -80,13 +80,13 @@ Once installed and Domoticz is restarted:
 
 If you prefer to manage dependencies manually or are on a system where automatic installation is restricted, you can install the required libraries for your plugins manually.
 
-PP-MANAGER looks for shared dependencies in its own `.shared_deps` directory and adds it to `sys.path`.
+PyPluginStore looks for shared dependencies in its own `.shared_deps` directory and adds it to `sys.path`.
 
 To install dependencies for a specific plugin manually:
 1.  Check the `requirements.txt` file in the plugin's folder.
-2.  Install them into the `00-PP-MANAGER/.shared_deps` folder:
+2.  Install them into the `00-PyPluginStore/.shared_deps` folder:
     ```bash
-    pip install -r /path/to/plugin/requirements.txt --target /path/to/domoticz/plugins/00-PP-MANAGER/.shared_deps
+    pip install -r /path/to/plugin/requirements.txt --target /path/to/domoticz/plugins/00-PyPluginStore/.shared_deps
     ```
 
 ---

@@ -7,7 +7,7 @@
 
 
 """
-<plugin key="PyPluginStore" name="PyPluginStore" author="adrighem" version="2.1.0" externallink="https://www.domoticz.com/forum/viewtopic.php?f=65&t=22339"> <!-- x-release-please-version -->
+<plugin key="PyPluginStore" name="PyPluginStore" author="adrighem" version="2.0.0" externallink="https://www.domoticz.com/forum/viewtopic.php?f=65&t=22339"> <!-- x-release-please-version -->
     <description>
         <h2>PyPluginStore</h2><br/>
         This plugin manages other Domoticz Python plugins.<br/><br/>
@@ -32,7 +32,6 @@
     </params>
 </plugin>
 """
-
 
 
 import os
@@ -162,9 +161,9 @@ class BasePlugin:
             Domoticz.Debug(f"Check permissions for: {templates_dir}")
 
         if 1 not in Devices:
-            Domoticz.Device(Name="API Payload", Unit=1, TypeName="Text", DeviceID="PPM_API_PAYLOAD", Used=1, Protected=1).Create()
+            Domoticz.Device(Name="API Payload", Unit=1, TypeName="Text", DeviceID="PPM_API_PAYLOAD", Used=1).Create()
         if 2 not in Devices:
-            Domoticz.Device(Name="API Trigger", Unit=2, Type=244, Subtype=73, Switchtype=9, DeviceID="PPM_API_TRIGGER", Used=1, Protected=1).Create()
+            Domoticz.Device(Name="API Trigger", Unit=2, Type=244, Subtype=73, Switchtype=9, DeviceID="PPM_API_TRIGGER", Used=1).Create()
             
         self.fetch_registry()
 
@@ -253,35 +252,18 @@ class BasePlugin:
         if Unit == 2 and Command.lower() == "on":
             if 1 in Devices:
                 payload_str = Devices[1].sValue
-                
-                # 1. DoS Protection: Limit payload length (Domoticz text limit is usually enough, but let's be safe)
-                if len(payload_str) > 2000:
-                    Domoticz.Error("API Payload exceeds length limit.")
-                    Devices[1].Update(nValue=0, sValue="")
-                    return
-
                 Domoticz.Debug(f"API Payload received: {payload_str}")
                 try:
-                    # Clear payload device immediately to prevent replay/abuse
-                    Devices[1].Update(nValue=0, sValue="")
-                    
                     payload = json.loads(payload_str)
-                    
-                    # 2. Type Validation: Ensure we got a dictionary
-                    if not isinstance(payload, dict):
-                        raise ValueError("Payload must be a JSON object")
-                    
-                    # 3. Content Sanitization
-                    self.tx_id = str(payload.get("tx_id", ""))[:50] # Limit tx_id length
+                    self.tx_id = payload.get("tx_id")
                     self.handleApiCommand(payload)
                 except Exception as e:
                     Domoticz.Error(f"Failed to parse API payload: {e}")
-                    self.sendApiResponse({"status": "error", "message": "Invalid JSON payload or structure"})
+                    self.sendApiResponse({"status": "error", "message": "Invalid JSON payload"})
 
     def handleApiCommand(self, payload):
         import shutil
-        # Ensure action is a safe string
-        action = str(payload.get("action", ""))
+        action = payload.get("action")
         plugins_dir = os.path.abspath(os.path.join(Parameters.get("HomeFolder", str(os.getcwd()) + "/"), ".."))
         
         if action == "list_plugins":
@@ -316,16 +298,8 @@ class BasePlugin:
             else:
                 self.sendApiResponse({"status": "error", "message": "Plugin not found"})
         elif action == "remove":
-            plugin_key = payload.get("plugin_key", "")
-            # Security: Prevent path traversal and accidental deletion of core folders
-            plugin_key = os.path.basename(plugin_key)
-            plugin_target_dir = os.path.abspath(os.path.join(plugins_dir, plugin_key))
-            
-            # Ensure the resolved path is still inside the plugins directory
-            if not plugin_target_dir.startswith(plugins_dir):
-                 self.sendApiResponse({"status": "error", "message": "Invalid plugin path"})
-                 return
-
+            plugin_key = payload.get("plugin_key")
+            plugin_target_dir = os.path.join(plugins_dir, plugin_key)
             if os.path.isdir(plugin_target_dir) and plugin_key != os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))):
                 try:
                     shutil.rmtree(plugin_target_dir)

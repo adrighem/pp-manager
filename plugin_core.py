@@ -34,7 +34,7 @@ class BasePlugin:
 
     def fetch_registry(self):
 
-        registry_url = "https://raw.githubusercontent.com/adrighem/pp-manager/refs/heads/master/registry.json"
+        registry_url = "https://raw.githubusercontent.com/adrighem/PyPluginStore/refs/heads/master/registry.json"
         Domoticz.Debug("Fetching plugin registry from GitHub.")
         try:
             req = urllib.request.Request(registry_url)
@@ -80,27 +80,27 @@ class BasePlugin:
 
         current_folder = os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/')))
         if not current_folder.startswith("00-"):
-            warn_msg = f"PP-MANAGER is in '{current_folder}'. It is strongly advised to rename the folder to start with '00-' (e.g., '00-PP-MANAGER') so it loads first."
+            warn_msg = f"PyPluginStore is in '{current_folder}'. It is strongly advised to rename the folder to start with '00-' (e.g., '00-PyPluginStore') so it loads first."
             Domoticz.Error(warn_msg)
-            Domoticz.SendNotification("PP-MANAGER Setup Warning", warn_msg)
+            Domoticz.SendNotification("PyPluginStore Setup Warning", warn_msg)
 
         # Inject shared dependencies into sys.path
         shared_deps_dir = os.path.join(plugins_dir, os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))), ".shared_deps")
         if os.path.isdir(shared_deps_dir) and shared_deps_dir not in sys.path:
             sys.path.insert(0, shared_deps_dir)
-            Domoticz.Log(f"Injected PP-MANAGER shared dependencies into sys.path: {shared_deps_dir}")
+            Domoticz.Log(f"Injected PyPluginStore shared dependencies into sys.path: {shared_deps_dir}")
 
         # Autoinstall/Update Custom UI
         try:
             import shutil
             # Determine paths
             home_folder_param = Parameters.get("HomeFolder", str(os.getcwd()) + "/")
-            html_src = os.path.join(home_folder_param, "pp-manager.html")
+            html_src = os.path.join(home_folder_param, "pypluginstore.html")
             
             # Find templates directory (relative to plugins folder)
             domoticz_dir = os.path.abspath(os.path.join(home_folder_param, "..", ".."))
             templates_dir = os.path.join(domoticz_dir, "www", "templates")
-            html_dst = os.path.join(templates_dir, "pp-manager.html")
+            html_dst = os.path.join(templates_dir, "pypluginstore.html")
             
             if os.path.isfile(html_src):
                 if not os.path.exists(templates_dir):
@@ -192,9 +192,9 @@ class BasePlugin:
                         if d in self.plugin_data:
                             self.UpdatePythonPlugin(self.plugin_data[d][0], self.plugin_data[d][1], d)
                         elif d == os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))):
-                            Domoticz.Debug("PP-Manager Folder found. Skipping!!")
+                            Domoticz.Debug("PyPluginStore Folder found. Skipping!!")
                         else:
-                            Domoticz.Log(f"Plugin: {d} cannot be managed with PP-Manager!!.")
+                            Domoticz.Log(f"Plugin: {d} cannot be managed with PyPluginStore!!.")
                 break
 
         if Parameters["Mode4"] == 'AllNotify':
@@ -205,9 +205,9 @@ class BasePlugin:
                         if d in self.plugin_data:
                             self.CheckForUpdatePythonPlugin(self.plugin_data[d][0], self.plugin_data[d][1], d)
                         elif d == os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))):
-                            Domoticz.Debug("PP-Manager Folder found. Skipping!!")
+                            Domoticz.Debug("PyPluginStore Folder found. Skipping!!")
                         else:
-                            Domoticz.Log(f"Plugin: {d} cannot be managed with PP-Manager!!.")
+                            Domoticz.Log(f"Plugin: {d} cannot be managed with PyPluginStore!!.")
                 break
 
         Domoticz.Log("Plugin Manager Ready. Use the 'Custom' menu to manage plugins.")
@@ -315,7 +315,7 @@ class BasePlugin:
     def onStop(self):
         Domoticz.Debug("onStop called")
         Domoticz.Log("Plugin is stopping.")
-        self.UpdatePythonPlugin("adrighem", "pp-manager", os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))))
+        self.UpdatePythonPlugin("adrighem", "PyPluginStore", os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))))
         Domoticz.Debugging(0)
 
     def onHeartbeat(self):
@@ -339,9 +339,9 @@ class BasePlugin:
                             if d in self.plugin_data:
                                 self.UpdatePythonPlugin(self.plugin_data[d][0], self.plugin_data[d][1], d)
                             elif d == os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))):
-                                Domoticz.Debug("PP-Manager Folder found. Skipping!!")
+                                Domoticz.Debug("PyPluginStore Folder found. Skipping!!")
                             else:
-                                Domoticz.Log(f"Plugin: {d} cannot be managed with PP-Manager!!.")
+                                Domoticz.Log(f"Plugin: {d} cannot be managed with PyPluginStore!!.")
                     break
 
             if Parameters["Mode4"] == 'AllNotify':
@@ -352,9 +352,9 @@ class BasePlugin:
                             if d in self.plugin_data:
                                 self.CheckForUpdatePythonPlugin(self.plugin_data[d][0], self.plugin_data[d][1], d)
                             elif d == os.path.basename(os.path.normpath(Parameters.get('HomeFolder', str(os.getcwd()) + '/'))):
-                                Domoticz.Debug("PP-Manager Folder found. Skipping!!")
+                                Domoticz.Debug("PyPluginStore Folder found. Skipping!!")
                             else:
-                                Domoticz.Log(f"Plugin: {d} cannot be managed with PP-Manager!!.")
+                                Domoticz.Log(f"Plugin: {d} cannot be managed with PyPluginStore!!.")
                     break
 
     def InstallPythonPlugin(self, ppAuthor, ppRepository, ppKey, ppBranch):
@@ -435,7 +435,7 @@ class BasePlugin:
             if error:
                 Domoticz.Debug("Git Error:" + error.strip())
                 if "Not a git repository" in error:
-                   Domoticz.Log("Plugin:" + ppKey + " is not installed from gitHub. Cannot be updated with PP-Manager!!.")
+                   Domoticz.Log("Plugin:" + ppKey + " is not installed from gitHub. Cannot be updated with PyPluginStore!!.")
         except OSError as e:
             Domoticz.Error("Git ErrorNo:" + str(e.errno))
             Domoticz.Error("Git StrError:" + str(e.strerror))

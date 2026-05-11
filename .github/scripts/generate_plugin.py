@@ -5,7 +5,7 @@ CORE_FILE = os.path.join(SCRIPT_DIR, '../../plugin_core.py')
 OUTPUT_FILE = os.path.join(SCRIPT_DIR, '../../plugin.py')
 
 def generate_plugin():
-    xml_header = f'''# pp-manager - PythonPlugin Manager
+    xml_header = f'''# PyPluginStore - PyPluginStore
 #
 # Author: adrighem, 2018
 #
@@ -14,13 +14,13 @@ def generate_plugin():
 
 
 """
-<plugin key="PP-MANAGER" name="Python Plugin Manager" author="adrighem" version="2.1.0" externallink="https://www.domoticz.com/forum/viewtopic.php?f=65&t=22339"> <!-- x-release-please-version -->
+<plugin key="PyPluginStore" name="PyPluginStore" author="adrighem" version="2.1.0" externallink="https://www.domoticz.com/forum/viewtopic.php?f=65&t=22339"> <!-- x-release-please-version -->
     <description>
-        <h2>Python Plugin Manager</h2><br/>
+        <h2>PyPluginStore</h2><br/>
         This plugin manages other Domoticz Python plugins.<br/><br/>
         <b>Usage:</b><br/>
         1. Add this hardware to Domoticz.<br/>
-        2. Navigate to <b>Custom</b> -> <b>Plugin Manager</b> in the top menu to manage your plugins.
+        2. Navigate to <b>Custom</b> -> <b>Plugin Store</b> in the top menu to manage your plugins.
     </description>
     <params>
         <param field="Mode4" label="Auto Update" width="175px">
@@ -51,3 +51,4 @@ def generate_plugin():
 
 if __name__ == '__main__':
     generate_plugin()
+

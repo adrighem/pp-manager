@@ -481,10 +481,10 @@
         "main",
         "2026-04-10T16:19:20Z"
     ],
-    "pp-manager": [
+    "PyPluginStore": [
         "ycahome",
-        "pp-manager",
-        "Domoticz Python plugin manager",
+        "PyPluginStore",
+        "Domoticz PyPluginStore",
         "master",
         "2026-04-06T17:35:57Z"
     ],
