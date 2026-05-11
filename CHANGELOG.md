@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.2.1](https://github.com/adrighem/PyPluginStore/compare/v2.2.0...v2.2.1) (2026-05-11)
+
+
+### Bug Fixes
+
+* correct capitalization in javascript getElementById ([3c55090](https://github.com/adrighem/PyPluginStore/commit/3c550904126cd31880ce9aa1a98437043812d300))
+* remove pp-manager from registry and ignore in monthly scans ([5a7003a](https://github.com/adrighem/PyPluginStore/commit/5a7003a36a1dede054adb13383e86cc7aa9faa88))
+* revert plugin key to PP-MANAGER for hardware backward compatibility and remove legacy UI ([68bfbc7](https://github.com/adrighem/PyPluginStore/commit/68bfbc7a807b16e4abae87b4bf7f3d1da31fde07))
+
+
+### Documentation
+
+* update store screenshot with new PyPluginStore UI ([1f61e6f](https://github.com/adrighem/PyPluginStore/commit/1f61e6f840afee27af928b88e29302d4169d0d88))
+
 ## [2.2.0](https://github.com/adrighem/PyPluginStore/compare/v2.1.0...v2.2.0) (2026-05-11)
 
 
