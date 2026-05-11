@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.2.0](https://github.com/adrighem/PyPluginStore/compare/v2.1.0...v2.2.0) (2026-05-11)
+
+
+### Features
+
+* add KPN Experia v10 plugin to registry ([290a08e](https://github.com/adrighem/PyPluginStore/commit/290a08ed7470f415f76a4b4910b4a7e45230d78b))
+
+
+### Bug Fixes
+
+* revert original repo name and url in fork note and registry ([ad0b51d](https://github.com/adrighem/PyPluginStore/commit/ad0b51df380634743ceeb723e19a114a261f1ee7))
+
 ## [2.1.0](https://github.com/adrighem/PyPluginStore/compare/v2.0.0...v2.1.0) (2026-05-10)
 
 
