@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/adrighem/PyPluginStore/compare/v2.2.2...v2.3.0) (2026-05-12)
+
+
+### Features
+
+* improve github scanner robustness and add missing plugins ([7794c14](https://github.com/adrighem/PyPluginStore/commit/7794c14e57243b16345885d3ea2bcd20e6b913d2))
+
 ## [2.2.2](https://github.com/adrighem/PyPluginStore/compare/v2.2.1...v2.2.2) (2026-05-12)
 
 
